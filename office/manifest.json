@@ -10,6 +10,6 @@
   "scope": "/office/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0a0b0d",
-  "theme_color": "#ff1c8e"
+  "background_color": "#fefcf5",
+  "theme_color": "#ffffff"
 }

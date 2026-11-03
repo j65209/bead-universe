@@ -4,12 +4,13 @@
 
    - data/ · assets/ · meta-ads/ 같은 상대 경로는 <base> 로 본체를 본다. Pages 응답이 CORS * 라 fetch 도 된다.
    - <base> 때문에 '#diary' 같은 상대 주소가 본체 주소로 풀려 pushState 가 막히므로, 현재 주소 기준으로 되돌린다.
-   - 대시보드 ↔ 에이전트 오피스 링크와 설치용 manifest 는 이 주소에 머물도록 바꾼다.
+   - 대시보드 ↔ 에이전트 오피스 · 광고 리포트 링크와 설치용 manifest 는 이 주소에 머물도록 바꾼다.
    - 이 주소에서 서버를 부르려면 프록시 config.env 의 BRIGHTBEED_ALLOWED_ORIGIN 에 이 주소가 있어야 한다. */
 (function () {
   var APP = 'https://j65209.github.io/beaduniverse/';
   var here = location.origin + '/office/';
   var page = document.currentScript.getAttribute('data-page');
+  var base = APP + page.replace(/[^/]*$/, '');
 
   var guard = '<script>' +
     "['pushState','replaceState'].forEach(function(m){" +
@@ -27,7 +28,7 @@
   function fail() {
     var msg = document.getElementById('msg');
     if (!msg) return;
-    msg.innerHTML = '오피스앱을 불러오지 못했습니다.<br><a href="' + APP + (page === 'index.html' ? '' : page) + '">원래 주소로 열기</a>';
+    msg.innerHTML = '오피스앱을 불러오지 못했습니다.<br><a href="' + APP + (page === 'index.html' ? '' : page) + location.search + '">원래 주소로 열기</a>';
   }
 
   fetch(APP + page, { cache: 'no-cache' })
@@ -38,10 +39,11 @@
     .then(function (html) {
       html = html
         .replace(/<head>/i, function (m) {
-          return m + '<base href="' + APP + '"><meta name="robots" content="noindex,nofollow">' + guard;
+          return m + '<base href="' + base + '"><meta name="robots" content="noindex,nofollow">' + guard;
         })
         .replace('href="./agents.html"', 'href="' + here + 'agents.html"')
         .replace('<a href="./">', '<a href="' + here + '">')
+        .replace(/`meta-ads\/report\.html\?/g, '`' + here + 'meta-ads/report.html?')
         .replace('href="manifest.json"', 'href="' + here + 'manifest.json"');
       document.open();
       document.write(html);
