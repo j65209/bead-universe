@@ -20,7 +20,7 @@
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: one centered column in the manner of apple.com. A black hero where the eight brand beads orbit
    the company name; a white strip of brand icons; a scroll-lit statement with four figures; brand tiles
@@ -51,11 +51,11 @@
   --sky:rgb(205 214 255 / .3);
   --spark:linear-gradient(90deg,#3d55e6 0%,#8a5be0 52%,#de6aa0 100%);
   --pearl:linear-gradient(100deg,#ffffff 0%,#dfe4ff 24%,#f4dcf0 48%,#e6eaf5 72%,#ffffff 100%);
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro KR","Apple SD Gothic Neo","Noto Sans KR","Helvetica Neue",Arial,sans-serif;
+  --font:"Gothic A1","Apple SD Gothic Neo","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:56px;background:var(--white)}
+html{scroll-behavior:smooth;background:var(--white)}
 body{margin:0;background:var(--white);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;letter-spacing:-.012em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--black);transition:background-color .2s ease}
 body.past-hero::before{background:transparent}
@@ -70,21 +70,8 @@ a,button{-webkit-tap-highlight-color:transparent}
   .band-in{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
 }
 
-/* global nav: only the company name in two lines, centered, laid over the page with no visible bar. It is white over the black hero
-   and ink once the hero has passed. Behind it sits a blur tinted the colour of the page, so it vanishes at rest
-   and only shows as a soft fade when content slides under the logo. Clicks pass through to the page. */
-.gnav{--bar-fg:var(--on-dark);--bar-tint:rgb(0 0 0 / .55);position:sticky;top:env(safe-area-inset-top,0px);z-index:50;margin-bottom:-52px;pointer-events:none}
-.past-hero .gnav{--bar-fg:var(--ink);--bar-tint:rgb(255 255 255 / .82)}
-.on-mist .gnav{--bar-tint:rgb(245 245 247 / .82)}
-.gnav::before{content:"";position:absolute;inset:calc(-1 * env(safe-area-inset-top,0px)) 0 -16px;z-index:-1;
-  background:var(--bar-tint);transition:background-color .2s ease;
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-  -webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
-.gnav-in{height:52px;display:flex;align-items:center;justify-content:center}
-.gnav-brand{display:inline-flex;flex-direction:column;align-items:center;color:var(--bar-fg);text-decoration:none;font-size:17px;font-weight:600;line-height:1.25;letter-spacing:-.02em;white-space:nowrap;pointer-events:auto;transition:color .2s ease}
-
 /* hero */
-.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--black);color:var(--on-dark);text-align:center;padding-block:calc(52px + clamp(44px,7vw,88px)) clamp(76px,9vw,124px)}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--black);color:var(--on-dark);text-align:center;padding-block:clamp(44px,7vw,88px) clamp(76px,9vw,124px)}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:
   radial-gradient(1.2px 1.2px at 7% 22%,var(--star),transparent),
   radial-gradient(1px 1px at 16% 64%,var(--star),transparent),
@@ -103,10 +90,12 @@ a,button{-webkit-tap-highlight-color:transparent}
   radial-gradient(50% 40% at 50% 40%,var(--glow-blue),transparent 72%),
   radial-gradient(30% 26% at 66% 54%,var(--glow-rose),transparent 72%)}
 .stage{position:relative;height:clamp(220px,40vw,520px);max-width:1360px;margin:clamp(4px,1vw,12px) auto 0}
-.stage h1{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-54%);white-space:nowrap;pointer-events:none;
-  font-size:clamp(40px,11.4vw,168px);font-weight:700;letter-spacing:-.045em;line-height:1.1;
+.stage-title{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-54%);pointer-events:none}
+.stage h1{white-space:nowrap;
+  font-size:clamp(40px,11.4vw,168px);font-weight:700;letter-spacing:-.03em;line-height:1.1;
   background:var(--pearl);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
   animation:sheen 10s ease-in-out infinite alternate}
+.stage-corp{position:absolute;left:0;right:0;top:100%;font-size:clamp(14px,1.4vw,19px);font-weight:500;color:var(--on-dark);white-space:nowrap}
 @keyframes sheen{from{background-position:0% 50%}to{background-position:100% 50%}}
 .stage .br-m{display:none}
 @media (max-width:640px){
@@ -151,8 +140,8 @@ a,button{-webkit-tap-highlight-color:transparent}
 .sec-head .label{display:block;margin:0 0 12px;font-size:clamp(17px,1.6vw,21px);font-weight:600;color:var(--gray)}
 .story-head{padding-bottom:0}
 .story-track{position:relative;margin-top:clamp(8px,2vw,24px)}
-.story-sticky{position:sticky;top:calc(52px + env(safe-area-inset-top,0px));z-index:1;overflow:hidden;display:flex;justify-content:center;align-items:flex-start;
-  height:calc(100vh - 52px - env(safe-area-inset-top,0px));padding-top:clamp(12px,4vh,48px);
+.story-sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:1;overflow:hidden;display:flex;justify-content:center;align-items:flex-start;
+  height:calc(100vh - env(safe-area-inset-top,0px));padding-top:clamp(12px,4vh,48px);
   background:radial-gradient(56% 46% at 50% 40%,var(--sky),transparent 72%)}
 .sv{--S:min(84vw,54vh,600px);position:relative;flex:none;width:var(--S);height:var(--S)}
 .sv svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
@@ -179,12 +168,12 @@ a,button{-webkit-tap-highlight-color:transparent}
 .pearl .grid line,.pearl .grid path{fill:none;stroke:rgb(64 58 140);stroke-width:2.2}
 .pearl .grid line{stroke-opacity:.26}
 .story-cards{position:relative;z-index:2;display:grid;justify-items:center;gap:68vh;
-  margin-top:calc(-100vh + 52px + env(safe-area-inset-top,0px));padding-top:62vh;padding-bottom:36vh;
+  margin-top:calc(-100vh + env(safe-area-inset-top,0px));padding-top:62vh;padding-bottom:36vh;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 @supports (height:1svh){
-  .story-sticky{height:calc(100svh - 52px - env(safe-area-inset-top,0px))}
+  .story-sticky{height:calc(100svh - env(safe-area-inset-top,0px))}
   .sv{--S:min(84vw,54svh,600px)}
-  .story-cards{gap:68svh;margin-top:calc(-100svh + 52px + env(safe-area-inset-top,0px));padding-top:62svh;padding-bottom:36svh}
+  .story-cards{gap:68svh;margin-top:calc(-100svh + env(safe-area-inset-top,0px));padding-top:62svh;padding-bottom:36svh}
 }
 .glass{width:min(100%,600px);border-radius:32px;text-align:center;padding:clamp(28px,4vw,40px) clamp(22px,4vw,44px) clamp(30px,4vw,44px);
   background:rgb(255 255 255 / .92);border:1px solid rgb(255 255 255 / .75);box-shadow:0 24px 70px -28px rgb(29 29 31 / .28),inset 0 1px 0 rgb(255 255 255 / .9)}
@@ -320,18 +309,15 @@ a,button{-webkit-tap-highlight-color:transparent}
 
 <div class="page" lang="ko">
 
-<header class="gnav" id="gnav">
-  <div class="gnav-in">
-    <a class="gnav-brand" href="#top"><span>Bead Universe</span><span>주식회사 비드유니버스</span></a>
-  </div>
-</header>
-
 <main>
 
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="band-in">
     <div class="stage" id="stage">
-      <h1 id="hero-title">Bead <br class="br-m">Universe</h1>
+      <div class="stage-title">
+        <h1 id="hero-title">Bead <br class="br-m">Universe</h1>
+        <p class="stage-corp">(주)비드유니버스</p>
+      </div>
       <a class="ob" href="#t-coferry" data-name="코페리 · 가방" aria-label="코페리"><img src="img/kop-best-bead.jpg" alt="" width="280" height="280"></a>
       <a class="ob" href="#t-apeti" data-name="아페티 · 주얼리" aria-label="아페티"><img src="img/apt-best-bead.jpg" alt="" width="280" height="280"></a>
       <a class="ob" href="#t-cleartype" data-name="클리어타입 · 주얼리" aria-label="클리어타입"><img src="img/ct-best-bead.jpg" alt="" width="280" height="280"></a>
@@ -560,7 +546,6 @@ a,button{-webkit-tap-highlight-color:transparent}
     <p class="foot-brands"><b>브랜드 공식몰</b><span class="sep"><a href="https://coferry.shop/" target="_blank" rel="noopener">Coferry</a><a href="https://apeti.co.kr/" target="_blank" rel="noopener">APETI</a><a href="https://cleartype.co.kr/" target="_blank" rel="noopener">Cleartype</a><a href="https://cosmi.co.kr/" target="_blank" rel="noopener">COSMI</a><a href="https://yarseoul.kr/" target="_blank" rel="noopener">YÄR</a><a href="https://6ashop.kr/" target="_blank" rel="noopener">6A</a><a href="https://akoihaus.kr/" target="_blank" rel="noopener">Akoi Haus</a><a href="https://produktepr.com/" target="_blank" rel="noopener">Produktepr</a></span></p>
     <p class="sep"><span>주식회사 비드유니버스</span><span>대표 전수빈</span><span>사업자등록번호 154-88-04029 · <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=1548804029" target="_blank" rel="noopener">사업자정보 확인</a></span><span>통신판매업 신고 2026-고양덕양구-2568호</span></p>
     <p class="sep"><span>경기도 고양시 덕양구 꽃마을로 42, 향동 센트럴타워 505호</span><span>전화 070-8019-0970</span><span>contact@bead-uni.com</span></p>
-    <p>식스에이와 야르는 관계사 (주)브라이트비드가 운영합니다.</p>
     <p class="copyr">Copyright © 2026 Bead Universe Co., Ltd. All rights reserved.</p>
   </div>
 </footer>
@@ -571,14 +556,12 @@ a,button{-webkit-tap-highlight-color:transparent}
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Bar colour: the bar has no background of its own, so it follows what is behind it.
-  const gnav = document.getElementById('gnav'), hero = document.getElementById('top'), work = document.getElementById('work');
+  // Notch strip (body::before): black over the hero, clear once the hero has passed.
+  const hero = document.getElementById('top');
   let barQueued = false;
   const paintBar = () => {
     barQueued = false;
-    const bar = gnav.getBoundingClientRect(), mid = bar.top + bar.height / 2;
-    document.body.classList.toggle('past-hero', hero.getBoundingClientRect().bottom <= mid);
-    document.body.classList.toggle('on-mist', work.getBoundingClientRect().top <= mid);
+    document.body.classList.toggle('past-hero', hero.getBoundingClientRect().bottom <= 0);
   };
   window.addEventListener('scroll', () => { if (!barQueued) { barQueued = true; requestAnimationFrame(paintBar); } }, { passive: true });
   window.addEventListener('resize', paintBar);
@@ -598,7 +581,7 @@ a,button{-webkit-tap-highlight-color:transparent}
     const size = narrow ? Math.round(Math.min(58, Math.max(44, W * 0.13)))
                         : Math.round(Math.min(104, Math.max(64, W * 0.072)));
     const rx = Math.min(W / 2 - size * 0.55, 640);
-    const ry = Math.min(rx * (narrow ? 0.58 : 0.27), H / 2 - size * 0.55);
+    const ry = Math.min(rx * (narrow ? 0.7 : 0.3), H / 2 - size * 0.55);
     geo = { cx: W / 2, cy: H / 2, rx, ry, size };
     stage.style.setProperty('--ob', size + 'px');
   }
