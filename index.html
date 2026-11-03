@@ -70,7 +70,7 @@ a,button{-webkit-tap-highlight-color:transparent}
   .band-in{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
 }
 
-/* global nav: only the logo, centered, laid over the page with no visible bar. It is white over the black hero
+/* global nav: only the company name in two lines, centered, laid over the page with no visible bar. It is white over the black hero
    and ink once the hero has passed. Behind it sits a blur tinted the colour of the page, so it vanishes at rest
    and only shows as a soft fade when content slides under the logo. Clicks pass through to the page. */
 .gnav{--bar-fg:var(--on-dark);--bar-tint:rgb(0 0 0 / .55);position:sticky;top:env(safe-area-inset-top,0px);z-index:50;margin-bottom:-52px;pointer-events:none}
@@ -81,8 +81,7 @@ a,button{-webkit-tap-highlight-color:transparent}
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
   -webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
 .gnav-in{height:52px;display:flex;align-items:center;justify-content:center}
-.gnav-brand{display:inline-flex;align-items:center;gap:9px;color:var(--bar-fg);text-decoration:none;font-size:17px;font-weight:600;letter-spacing:-.02em;white-space:nowrap;pointer-events:auto;transition:color .2s ease}
-.gnav-brand i{width:14px;height:14px;border-radius:50%;flex:none;background:radial-gradient(circle at 34% 30%,var(--gloss) 0 12%,transparent 34%),var(--spark)}
+.gnav-brand{display:inline-flex;flex-direction:column;align-items:center;color:var(--bar-fg);text-decoration:none;font-size:17px;font-weight:600;line-height:1.25;letter-spacing:-.02em;white-space:nowrap;pointer-events:auto;transition:color .2s ease}
 
 /* hero */
 .hero{position:relative;isolation:isolate;overflow:hidden;background:var(--black);color:var(--on-dark);text-align:center;padding-block:calc(52px + clamp(44px,7vw,88px)) clamp(76px,9vw,124px)}
@@ -103,7 +102,6 @@ a,button{-webkit-tap-highlight-color:transparent}
   radial-gradient(1px 1px at 97% 93%,var(--star),transparent),
   radial-gradient(50% 40% at 50% 40%,var(--glow-blue),transparent 72%),
   radial-gradient(30% 26% at 66% 54%,var(--glow-rose),transparent 72%)}
-.hero-eyebrow{font-size:clamp(15px,1.5vw,19px);font-weight:600;color:var(--on-dark-2);letter-spacing:-.01em}
 .stage{position:relative;height:clamp(220px,40vw,520px);max-width:1360px;margin:clamp(4px,1vw,12px) auto 0}
 .stage h1{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-54%);white-space:nowrap;pointer-events:none;
   font-size:clamp(40px,11.4vw,168px);font-weight:700;letter-spacing:-.045em;line-height:1.1;
@@ -132,8 +130,6 @@ a,button{-webkit-tap-highlight-color:transparent}
 .btn:hover{background:var(--blue-hover);border-color:var(--blue-hover)}
 .btn.ghost{background:transparent;color:var(--blue-text);border-color:var(--blue-text)}
 .btn.ghost:hover{background:var(--blue-text);color:var(--white)}
-.hero .btn.ghost{color:var(--blue-dark);border-color:var(--blue-dark)}
-.hero .btn.ghost:hover{background:var(--blue-dark);color:var(--black)}
 
 /* brand icon strip */
 .chips{background:var(--white)}
@@ -326,7 +322,7 @@ a,button{-webkit-tap-highlight-color:transparent}
 
 <header class="gnav" id="gnav">
   <div class="gnav-in">
-    <a class="gnav-brand" href="#top"><i aria-hidden="true"></i>Bead Universe</a>
+    <a class="gnav-brand" href="#top"><span>Bead Universe</span><span>주식회사 비드유니버스</span></a>
   </div>
 </header>
 
@@ -334,7 +330,6 @@ a,button{-webkit-tap-highlight-color:transparent}
 
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="band-in">
-    <p class="hero-eyebrow">주식회사 비드유니버스</p>
     <div class="stage" id="stage">
       <h1 id="hero-title">Bead <br class="br-m">Universe</h1>
       <a class="ob" href="#t-coferry" data-name="코페리 · 가방" aria-label="코페리"><img src="img/kop-best-bead.jpg" alt="" width="280" height="280"></a>
@@ -351,7 +346,6 @@ a,button{-webkit-tap-highlight-color:transparent}
     <p class="hero-sub">주얼리, 가방, 리빙 브랜드를 직접 기획하고 운영합니다.</p>
     <div class="cta">
       <a class="btn" href="#brands">브랜드 보기</a>
-      <a class="btn ghost" href="#contact">제휴 문의</a>
     </div>
   </div>
 </section>
@@ -402,7 +396,7 @@ a,button{-webkit-tap-highlight-color:transparent}
       <article class="glass">
         <p class="kick">Circle · 하나의 원형</p>
         <h3>구슬이 꿰어지면<br>하나의 원이 됩니다.</h3>
-        <p>서로 다른 여덟 개의 구슬이 한 줄의 실에 꿰어져 원을 이룹니다. 기획과 소싱, 디자인과 판매, 운영이라는 하나의 실이 모든 브랜드를 지나갑니다. 그렇게 이어진 둥근 원이 비드유니버스의 원형(原型)입니다.</p>
+        <p>서로 다른 여덟 개의 구슬이 한 줄의 실에 꿰어져 원을 이룹니다. 기획과 생산, 디자인과 판매, 운영이라는 하나의 실이 모든 브랜드를 지나갑니다. 그렇게 이어진 둥근 원이 비드유니버스의 원형(原型)입니다.</p>
       </article>
       <article class="glass">
         <p class="kick">Universe · 둥근 세계관</p>
@@ -551,10 +545,10 @@ a,button{-webkit-tap-highlight-color:transparent}
       <p>기획부터 운영까지, 네 단계를 모두 회사 안에서 합니다.</p>
     </header>
     <ol class="cards">
-      <li class="card rise"><span class="no">01</span><h3>기획·소싱</h3><p>판매 데이터를 보고 다음 상품을 정합니다. 중국 현지 공급사와 직접 거래하고, 발주부터 입고까지 물류팀이 관리합니다.</p></li>
-      <li class="card rise"><span class="no">02</span><h3>브랜드·디자인</h3><p>브랜드마다 다른 톤을 지키도록 로고, 상세페이지, 브랜드몰 디자인을 인하우스 디자인팀이 맡습니다.</p></li>
-      <li class="card rise"><span class="no">03</span><h3>판매·마케팅</h3><p>브랜드 자사몰과 스마트스토어, 에이블리, 지그재그에서 동시에 판매합니다. 메타 광고와 플랫폼 광고도 직접 운영합니다.</p></li>
-      <li class="card rise"><span class="no">04</span><h3>운영 시스템</h3><p>직접 만든 운영 시스템이 8개 브랜드의 매출, 재고, 발주 현황을 30분마다 모읍니다. 매일 아침 브랜드별 리포트가 자동으로 나옵니다.</p></li>
+      <li class="card rise"><span class="no">01</span><h3>기획·자체생산</h3><p>판매 데이터로 다음 상품을 기획하고, 해외 자체 공장과 직접 거래해 생산합니다. 주얼리, 가방, 리빙까지 제품별 생산 인프라를 갖췄고, 발주부터 입고까지 물류팀이 관리합니다.</p></li>
+      <li class="card rise"><span class="no">02</span><h3>브랜딩 디자인</h3><p>브랜드의 특색에 맞춰 제품을 디자인하고, 고유한 무드를 담은 비주얼을 만듭니다. 로고부터 상세페이지, 브랜드몰까지 인하우스 디자인팀이 일관되게 완성합니다.</p></li>
+      <li class="card rise"><span class="no">03</span><h3>판매·마케팅</h3><p>8개 공식몰과 스마트스토어, 에이블리, 지그재그 등 주요 플랫폼에서 판매합니다. 인스타그램 팔로워 12.7만을 기반으로, 세분화된 마케팅 조직이 메타·플랫폼 광고부터 시딩, 공동구매까지 분야별로 직접 운영합니다.</p></li>
+      <li class="card rise"><span class="no">04</span><h3>AI 운영 시스템</h3><p>직접 개발한 AI 에이전트 시스템으로 8개 브랜드를 소수 정예로 구축하고 운영합니다. 매출, 재고, 발주 관리와 일일 리포트를 자동화하고, 더 앞선 AI 활용을 위한 연구와 개발을 이어갑니다.</p></li>
     </ol>
   </div>
 </section>
