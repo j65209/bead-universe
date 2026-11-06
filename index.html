@@ -23,10 +23,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: one centered column in the manner of apple.com. A white hero where the company name sits inside
-   the Bead Universe symbol and the eight brand beads ride its ring; a white strip of brand icons; a scroll-lit
-   statement with figures; a rail of brand tiles; a grey band of process cards; a small grey footer for the
-   legal details. Brand colours: white ground, signature blue #4f7fcf. */
+/* Layout: one centered column in the manner of apple.com. A white hero with the Bead Universe symbol on its
+   own and the eight brand names under it; the story of the name; a scroll-lit statement with figures; a rail of
+   brand tiles; a grey band of process cards; a small grey footer for the legal details.
+   Brand colours: white ground, signature blue #4f7fcf. */
 :root{
   color-scheme:light;
   --white:#ffffff;
@@ -63,32 +63,20 @@ a,button{-webkit-tap-highlight-color:transparent}
   .band-in{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
 }
 
-/* hero */
-.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--white);color:var(--ink);text-align:center;padding-block:clamp(44px,7vw,88px) clamp(76px,9vw,124px)}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(56% 46% at 50% 40%,var(--sky),transparent 72%)}
-.stage{position:relative;height:clamp(220px,40vw,520px);max-width:1360px;margin:clamp(4px,1vw,12px) auto 0}
-/* The symbol. The mid-line of its band is an ellipse centred at 48.65% / 50.49% of the art; that point sits on
-   the stage centre so the beads (script: RING) ride the ring. Width --rw comes from the script. */
-.stage-ring{position:absolute;left:50%;top:50%;z-index:0;width:var(--rw,0px);max-width:none;height:auto;
-  transform:translate(-48.65%,-50.49%);pointer-events:none;-webkit-user-select:none;user-select:none}
-.stage-title{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-60%);pointer-events:none}
-.stage h1{white-space:nowrap;font-size:clamp(36px,7.4vw,96px);font-weight:700;letter-spacing:-.03em;line-height:1.1;color:var(--ink)}
-.stage-corp{position:absolute;left:0;right:0;top:100%;font-size:clamp(13px,1.3vw,18px);font-weight:500;color:var(--gray);white-space:nowrap}
-.stage .br-m{display:none}
-@media (max-width:640px){
-  .stage{height:clamp(220px,58vw,300px)}
-  .stage h1{font-size:10vw;line-height:1}
-  .stage-corp{font-size:12px}
-  .stage .br-m{display:inline}
+/* hero: the symbol on its own, the eight brand names under it */
+.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--white);color:var(--ink);text-align:center;padding-block:clamp(56px,8vw,104px) clamp(76px,9vw,124px)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(52% 44% at 50% 32%,var(--sky),transparent 72%)}
+.mark img{width:min(84vw,760px);height:auto;margin-inline:auto}
+.names{display:flex;flex-wrap:wrap;justify-content:center;row-gap:8px;max-width:860px;margin:clamp(26px,3.6vw,44px) auto 0;
+  font-size:clamp(15px,1.5vw,19px);font-weight:600;letter-spacing:-.005em}
+.names a{color:var(--link-gray);text-decoration:none;white-space:nowrap;transition:color .2s ease}
+.names a:hover{color:var(--blue-text)}
+.names a:not(:last-child)::after{content:"·";margin:0 .75em;color:var(--gray-2);font-weight:400}
+@media (max-width:734px){
+  .names{display:grid;grid-template-columns:repeat(4,auto);justify-content:center;justify-items:center;gap:12px 18px}
+  .names a:not(:last-child)::after{content:none}
 }
-.ob{position:absolute;left:0;top:0;z-index:1;width:var(--ob,72px);height:var(--ob,72px);border-radius:50%;will-change:transform,opacity;
-  box-shadow:0 16px 30px -14px rgb(29 29 31 / .4),0 0 0 1px rgb(0 0 0 / .06)}
-.ob img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-.ob::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle at 32% 27%,var(--gloss) 0 7%,transparent 25%),radial-gradient(circle at 50% 50%,transparent 56%,var(--shade) 100%)}
-.ob:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:50%}
-.orbit-cap{min-height:1.5em;margin-top:2px;font-size:14px;color:var(--gray-2)}
-.hero-tag{margin-top:clamp(18px,3vw,30px);font-size:clamp(30px,4.6vw,64px);font-weight:700;letter-spacing:-.035em;line-height:1.12;text-wrap:balance}
+.hero-tag{margin-top:clamp(30px,4.4vw,52px);font-size:clamp(30px,4.6vw,64px);font-weight:700;letter-spacing:-.035em;line-height:1.12;text-wrap:balance}
 .hero-sub{margin-top:14px;font-size:clamp(17px,1.8vw,21px);color:var(--gray);text-wrap:balance}
 
 .cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 14px;margin-top:28px}
@@ -97,20 +85,6 @@ a,button{-webkit-tap-highlight-color:transparent}
 .btn:hover{background:var(--blue-hover);border-color:var(--blue-hover)}
 .btn.ghost{background:transparent;color:var(--blue-text);border-color:var(--blue-text)}
 .btn.ghost:hover{background:var(--blue-text);color:var(--white)}
-
-/* brand icon strip */
-.chips{background:var(--white)}
-.chips-in{display:flex;justify-content:center;flex-wrap:wrap;gap:12px clamp(10px,2.4vw,34px);padding-block:26px 22px}
-.chips a{display:flex;flex-direction:column;align-items:center;gap:9px;width:86px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:500;letter-spacing:-.005em}
-.chip-img{position:relative;width:60px;height:60px;border-radius:50%;overflow:hidden;box-shadow:0 8px 16px -10px var(--shade);transition:transform .25s ease}
-.chip-img img{width:100%;height:100%;object-fit:cover}
-.chip-img::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 27%,var(--gloss) 0 8%,transparent 28%)}
-.chips a:hover .chip-img{transform:translateY(-3px)}
-@media (max-width:734px){
-  .chips-in{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 6px}
-  .chips a{width:auto;font-size:12px}
-  .chip-img{width:54px;height:54px}
-}
 
 /* about: the story of the name. A sticky stage goes from one bead, to eight beads strung into a circle,
    to a round world they orbit, keyed to the glass card the reader is on. */
@@ -266,8 +240,7 @@ a,button{-webkit-tap-highlight-color:transparent}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .btn,.chip-img,.statement .w{transition:none}
-  .chips a:hover .chip-img{transform:none}
+  .btn,.names a,.statement .w{transition:none}
   .bd .float,.pearl{animation:none}
 }
 </style>
@@ -291,22 +264,17 @@ a,button{-webkit-tap-highlight-color:transparent}
 
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="band-in">
-    <div class="stage" id="stage">
-      <img class="stage-ring" src="symbol.svg" alt="" width="1304" height="650">
-      <div class="stage-title">
-        <h1 id="hero-title">Bead <br class="br-m">Universe</h1>
-        <p class="stage-corp">(주)비드유니버스</p>
-      </div>
-      <a class="ob" href="#t-coferry" data-name="코페리 · 가방" aria-label="코페리"><img src="img/kop-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-apeti" data-name="아페티 · 주얼리" aria-label="아페티"><img src="img/apt-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-cleartype" data-name="클리어타입 · 주얼리" aria-label="클리어타입"><img src="img/ct-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-cosmi" data-name="코즈미 · 주얼리" aria-label="코즈미"><img src="img/koz-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-yar" data-name="야르 · 주얼리" aria-label="야르"><img src="img/yar-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-sixa" data-name="식스에이 · 주얼리" aria-label="식스에이"><img src="img/6a-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-akoihaus" data-name="아코이하우스 · 리빙" aria-label="아코이하우스"><img src="img/akoi-best-bead.jpg" alt="" width="280" height="280"></a>
-      <a class="ob" href="#t-produktepr" data-name="프로덕트피알 · 리빙" aria-label="프로덕트피알"><img src="img/pp-best-bead.jpg" alt="" width="280" height="280"></a>
-    </div>
-    <p class="orbit-cap" id="orbit-cap" aria-live="polite">구슬을 누르면 브랜드로 이동합니다</p>
+    <h1 class="mark" id="hero-title"><img src="symbol.svg" alt="Bead Universe" width="1304" height="650"></h1>
+    <nav class="names" aria-label="브랜드 바로가기">
+      <a href="#t-coferry">Coferry</a>
+      <a href="#t-apeti">APETI</a>
+      <a href="#t-cleartype">Cleartype</a>
+      <a href="#t-cosmi">COSMI</a>
+      <a href="#t-yar">YÄR</a>
+      <a href="#t-sixa">6A</a>
+      <a href="#t-akoihaus">Akoi Haus</a>
+      <a href="#t-produktepr">Produktepr</a>
+    </nav>
     <p class="hero-tag">여덟 개의 브랜드, 하나의 세계관.</p>
     <p class="hero-sub">주얼리, 가방, 리빙 브랜드를 직접 기획하고 운영합니다.</p>
     <div class="cta">
@@ -314,19 +282,6 @@ a,button{-webkit-tap-highlight-color:transparent}
     </div>
   </div>
 </section>
-
-<nav class="chips" aria-label="브랜드 바로가기">
-  <div class="band-in chips-in">
-    <a href="#t-coferry"><span class="chip-img"><img src="img/kop-best-bead.jpg" alt="" width="280" height="280"></span>Coferry</a>
-    <a href="#t-apeti"><span class="chip-img"><img src="img/apt-best-bead.jpg" alt="" width="280" height="280"></span>APETI</a>
-    <a href="#t-cleartype"><span class="chip-img"><img src="img/ct-best-bead.jpg" alt="" width="280" height="280"></span>Cleartype</a>
-    <a href="#t-cosmi"><span class="chip-img"><img src="img/koz-best-bead.jpg" alt="" width="280" height="280"></span>COSMI</a>
-    <a href="#t-yar"><span class="chip-img"><img src="img/yar-best-bead.jpg" alt="" width="280" height="280"></span>YÄR</a>
-    <a href="#t-sixa"><span class="chip-img"><img src="img/6a-best-bead.jpg" alt="" width="280" height="280"></span>6A</a>
-    <a href="#t-akoihaus"><span class="chip-img"><img src="img/akoi-best-bead.jpg" alt="" width="280" height="280"></span>Akoi Haus</a>
-    <a href="#t-produktepr"><span class="chip-img"><img src="img/pp-best-bead.jpg" alt="" width="280" height="280"></span>Produktepr</a>
-  </div>
-</nav>
 
 <section class="story" id="about" aria-labelledby="about-title">
   <div class="band-in">
@@ -546,67 +501,6 @@ a,button{-webkit-tap-highlight-color:transparent}
   window.addEventListener('scroll', () => { if (!barQueued) { barQueued = true; requestAnimationFrame(paintBar); } }, { passive: true });
   window.addEventListener('resize', paintBar);
   paintBar();
-
-  // Orbit: the brand beads ride the ring of the Bead Universe symbol around the company name. Beads in the
-  // front half pass over the title and grow; beads in the back half pass behind it, smaller and dimmer.
-  const stage = document.getElementById('stage');
-  const beads = Array.from(stage.querySelectorAll('.ob'));
-  const cap = document.getElementById('orbit-cap');
-  const capText = cap.textContent;
-  // Mid-line of the symbol's band as fractions of the symbol's width (its centre is pinned in CSS: .stage-ring).
-  const RING = { rx: 0.4295, ry: 0.221 };
-  let angle = 0.42, last = 0, running = false, held = false, inView = true, geo;
-
-  function measure() {
-    const W = stage.clientWidth, H = stage.clientHeight;
-    const narrow = W < 640;
-    const size = narrow ? Math.round(Math.min(48, Math.max(34, W * 0.11)))
-                        : Math.round(Math.min(104, Math.max(64, W * 0.072)));
-    // As wide as the stage allows while the nearest bead still fits above the stage's bottom edge.
-    const rw = Math.max(0, Math.min(W * (narrow ? 0.96 : 0.9), (H / 2 - size / 2) / RING.ry, 1040));
-    geo = { cx: W / 2, cy: H / 2, rx: rw * RING.rx, ry: rw * RING.ry, size };
-    stage.style.setProperty('--ob', size + 'px');
-    stage.style.setProperty('--rw', rw.toFixed(1) + 'px');
-  }
-  function place() {
-    const { cx, cy, rx, ry, size } = geo;
-    beads.forEach((el, i) => {
-      const th = angle + i * 2 * Math.PI / beads.length;
-      const s = Math.sin(th), depth = (s + 1) / 2;
-      const x = cx + rx * Math.cos(th) - size / 2, y = cy + ry * s - size / 2;
-      el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${(0.56 + 0.44 * depth).toFixed(3)})`;
-      el.style.zIndex = s > 0 ? 3 : 1;
-      el.style.opacity = (0.72 + 0.28 * depth).toFixed(3);
-    });
-  }
-  function tick(now) {
-    if (!running) return;
-    const dt = last ? Math.min(now - last, 64) : 16;
-    last = now;
-    if (!held) angle += dt * (2 * Math.PI / 56000);
-    place();
-    requestAnimationFrame(tick);
-  }
-  function sync() {
-    const go = inView && !reduce.matches && !document.hidden;
-    if (go && !running) { running = true; last = 0; requestAnimationFrame(tick); }
-    else if (!go) running = false;
-  }
-  const hold = (el) => { held = !!el; cap.textContent = el ? el.dataset.name : capText; };
-  stage.addEventListener('pointerover', e => hold(e.target.closest('.ob')));
-  stage.addEventListener('pointerleave', () => hold(null));
-  stage.addEventListener('focusin', e => hold(e.target.closest('.ob')));
-  stage.addEventListener('focusout', () => hold(null));
-
-  measure();
-  place();
-  if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); place(); }).observe(stage);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([en]) => { inView = en.isIntersecting; sync(); }).observe(stage);
-  }
-  document.addEventListener('visibilitychange', sync);
-  if (reduce.addEventListener) reduce.addEventListener('change', sync);
-  sync();
 
   // About: the name's story. One bead, then eight beads strung into a circle, then a round world they
   // orbit. The stage follows whichever glass card is passing the reading line.
