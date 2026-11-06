@@ -15,6 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
@@ -22,10 +23,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: one centered column in the manner of apple.com. A black hero where the eight brand beads orbit
-   the company name; a white strip of brand icons; a scroll-lit statement with four figures; brand tiles
-   (two wide flagship tiles, then a two-up grid); a grey band of process cards; a black contact band;
-   a small grey footer for the legal details. Deliberately single-theme, as apple.com is. */
+/* Layout: one centered column in the manner of apple.com. A white hero where the company name sits inside
+   the Bead Universe symbol and the eight brand beads ride its ring; a white strip of brand icons; a scroll-lit
+   statement with figures; a rail of brand tiles; a grey band of process cards; a small grey footer for the
+   legal details. Brand colours: white ground, signature blue #4f7fcf. */
 :root{
   color-scheme:light;
   --white:#ffffff;
@@ -35,29 +36,21 @@
   --gray-2:#86868b;
   --line:#d2d2d7;
   --link-gray:#424245;
-  --blue:#0071e3;
-  --blue-hover:#0077ed;
-  --blue-text:#0066cc;
-  --blue-dark:#2997ff;
-  --black:#000000;
-  --on-dark:#f5f5f7;
-  --on-dark-2:#a1a1a6;
-  --star:rgb(255 255 255 / .7);
-  --glow-blue:rgb(61 85 230 / .32);
-  --glow-rose:rgb(222 106 160 / .15);
+  --blue:#4f7fcf;          /* signature colour */
+  --blue-hover:#4675c6;
+  --blue-text:#3f6dbd;     /* signature for text on white (contrast 5:1) */
   --gloss:rgb(255 255 255 / .6);
   --shade:rgb(0 0 0 / .42);
   --thread-c:rgb(29 29 31 / .3);
-  --sky:rgb(205 214 255 / .3);
-  --spark:linear-gradient(90deg,#3d55e6 0%,#8a5be0 52%,#de6aa0 100%);
-  --pearl:linear-gradient(100deg,#ffffff 0%,#dfe4ff 24%,#f4dcf0 48%,#e6eaf5 72%,#ffffff 100%);
+  --sky:rgb(79 127 207 / .1);
+  --spark:linear-gradient(90deg,var(--blue) 0%,var(--blue) 100%);
   --font:"Gothic A1","Apple SD Gothic Neo","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;background:var(--white)}
 body{margin:0;background:var(--white);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;letter-spacing:-.012em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--black);transition:background-color .2s ease}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--white);transition:background-color .2s ease}
 body.past-hero::before{background:transparent}
 .page{overflow-x:clip;word-break:keep-all;overflow-wrap:break-word}
 h1,h2,h3,p,ol,dl,dd{margin:0}
@@ -71,47 +64,32 @@ a,button{-webkit-tap-highlight-color:transparent}
 }
 
 /* hero */
-.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--black);color:var(--on-dark);text-align:center;padding-block:clamp(44px,7vw,88px) clamp(76px,9vw,124px)}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:
-  radial-gradient(1.2px 1.2px at 7% 22%,var(--star),transparent),
-  radial-gradient(1px 1px at 16% 64%,var(--star),transparent),
-  radial-gradient(1.4px 1.4px at 24% 12%,var(--star),transparent),
-  radial-gradient(1px 1px at 31% 84%,var(--star),transparent),
-  radial-gradient(1.1px 1.1px at 39% 31%,var(--star),transparent),
-  radial-gradient(1px 1px at 46% 76%,var(--star),transparent),
-  radial-gradient(1.5px 1.5px at 57% 15%,var(--star),transparent),
-  radial-gradient(1px 1px at 63% 89%,var(--star),transparent),
-  radial-gradient(1.2px 1.2px at 72% 34%,var(--star),transparent),
-  radial-gradient(1px 1px at 79% 70%,var(--star),transparent),
-  radial-gradient(1.4px 1.4px at 87% 19%,var(--star),transparent),
-  radial-gradient(1px 1px at 94% 57%,var(--star),transparent),
-  radial-gradient(1px 1px at 4% 91%,var(--star),transparent),
-  radial-gradient(1px 1px at 97% 93%,var(--star),transparent),
-  radial-gradient(50% 40% at 50% 40%,var(--glow-blue),transparent 72%),
-  radial-gradient(30% 26% at 66% 54%,var(--glow-rose),transparent 72%)}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--white);color:var(--ink);text-align:center;padding-block:clamp(44px,7vw,88px) clamp(76px,9vw,124px)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(56% 46% at 50% 40%,var(--sky),transparent 72%)}
 .stage{position:relative;height:clamp(220px,40vw,520px);max-width:1360px;margin:clamp(4px,1vw,12px) auto 0}
-.stage-title{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-54%);pointer-events:none}
-.stage h1{white-space:nowrap;
-  font-size:clamp(40px,11.4vw,168px);font-weight:700;letter-spacing:-.03em;line-height:1.1;
-  background:var(--pearl);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:sheen 10s ease-in-out infinite alternate}
-.stage-corp{position:absolute;left:0;right:0;top:100%;font-size:clamp(14px,1.4vw,19px);font-weight:500;color:var(--on-dark);white-space:nowrap}
-@keyframes sheen{from{background-position:0% 50%}to{background-position:100% 50%}}
+/* The symbol. The mid-line of its band is an ellipse centred at 48.65% / 50.49% of the art; that point sits on
+   the stage centre so the beads (script: RING) ride the ring. Width --rw comes from the script. */
+.stage-ring{position:absolute;left:50%;top:50%;z-index:0;width:var(--rw,0px);max-width:none;height:auto;
+  transform:translate(-48.65%,-50.49%);pointer-events:none;-webkit-user-select:none;user-select:none}
+.stage-title{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-60%);pointer-events:none}
+.stage h1{white-space:nowrap;font-size:clamp(36px,7.4vw,96px);font-weight:700;letter-spacing:-.03em;line-height:1.1;color:var(--ink)}
+.stage-corp{position:absolute;left:0;right:0;top:100%;font-size:clamp(13px,1.3vw,18px);font-weight:500;color:var(--gray);white-space:nowrap}
 .stage .br-m{display:none}
 @media (max-width:640px){
-  .stage{height:300px}
-  .stage h1{font-size:13vw;line-height:1}
+  .stage{height:clamp(220px,58vw,300px)}
+  .stage h1{font-size:10vw;line-height:1}
+  .stage-corp{font-size:12px}
   .stage .br-m{display:inline}
 }
 .ob{position:absolute;left:0;top:0;z-index:1;width:var(--ob,72px);height:var(--ob,72px);border-radius:50%;will-change:transform,opacity;
-  box-shadow:0 18px 36px -16px var(--glow-blue),0 0 0 1px rgb(255 255 255 / .12)}
+  box-shadow:0 16px 30px -14px rgb(29 29 31 / .4),0 0 0 1px rgb(0 0 0 / .06)}
 .ob img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 .ob::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle at 32% 27%,var(--gloss) 0 7%,transparent 25%),radial-gradient(circle at 50% 50%,transparent 56%,var(--shade) 100%)}
-.ob:focus-visible{outline:2px solid var(--blue-dark);outline-offset:4px;border-radius:50%}
+.ob:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:50%}
 .orbit-cap{min-height:1.5em;margin-top:2px;font-size:14px;color:var(--gray-2)}
 .hero-tag{margin-top:clamp(18px,3vw,30px);font-size:clamp(30px,4.6vw,64px);font-weight:700;letter-spacing:-.035em;line-height:1.12;text-wrap:balance}
-.hero-sub{margin-top:14px;font-size:clamp(17px,1.8vw,21px);color:var(--on-dark-2);text-wrap:balance}
+.hero-sub{margin-top:14px;font-size:clamp(17px,1.8vw,21px);color:var(--gray);text-wrap:balance}
 
 .cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 14px;margin-top:28px}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:980px;border:1px solid var(--blue);
@@ -160,12 +138,12 @@ a,button{-webkit-tap-highlight-color:transparent}
 @property --spin{syntax:"<angle>";inherits:false;initial-value:0deg}
 .pearl{z-index:3;width:calc(.56 * var(--S));height:calc(.56 * var(--S));
   background:radial-gradient(circle at 34% 28%,rgb(255 255 255 / .95) 0 5%,rgb(255 255 255 / 0) 24%),
-    radial-gradient(circle at 50% 50%,transparent 50%,rgb(110 100 170 / .26) 100%),
-    conic-gradient(from var(--spin) at 50% 50%,#cdd6ff,#f4d2f0,#ffe6d4,#d4f4ea,#d6defe,#cdd6ff);
-  box-shadow:0 40px 90px -36px rgb(138 91 224 / .5);animation:spin 18s linear infinite}
+    radial-gradient(circle at 50% 50%,transparent 50%,rgb(47 84 150 / .24) 100%),
+    conic-gradient(from var(--spin) at 50% 50%,#cddbf3,#e9f0fa,#bdd0ef,#f4f7fc,#d4e1f5,#cddbf3);
+  box-shadow:0 40px 90px -36px rgb(79 127 207 / .5);animation:spin 18s linear infinite}
 @keyframes spin{to{--spin:360deg}}
 .pearl .grid{position:absolute;inset:0;width:100%;height:100%;opacity:var(--g,0);pointer-events:none}
-.pearl .grid line,.pearl .grid path{fill:none;stroke:rgb(64 58 140);stroke-width:2.2}
+.pearl .grid line,.pearl .grid path{fill:none;stroke:rgb(47 84 150);stroke-width:2.2}
 .pearl .grid line{stroke-opacity:.26}
 .story-cards{position:relative;z-index:2;display:grid;justify-items:center;gap:68vh;
   margin-top:calc(-100vh + env(safe-area-inset-top,0px));padding-top:62vh;padding-bottom:36vh;
@@ -288,7 +266,6 @@ a,button{-webkit-tap-highlight-color:transparent}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .stage h1{animation:none}
   .btn,.chip-img,.statement .w{transition:none}
   .chips a:hover .chip-img{transform:none}
   .bd .float,.pearl{animation:none}
@@ -315,6 +292,7 @@ a,button{-webkit-tap-highlight-color:transparent}
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="band-in">
     <div class="stage" id="stage">
+      <img class="stage-ring" src="symbol.svg" alt="" width="1304" height="650">
       <div class="stage-title">
         <h1 id="hero-title">Bead <br class="br-m">Universe</h1>
         <p class="stage-corp">(주)비드유니버스</p>
@@ -569,23 +547,26 @@ a,button{-webkit-tap-highlight-color:transparent}
   window.addEventListener('resize', paintBar);
   paintBar();
 
-  // Orbit: the brand beads circle the company name on a tilted ellipse. Beads in the front half pass
-  // over the title and grow; beads in the back half pass behind it, smaller and dimmer.
+  // Orbit: the brand beads ride the ring of the Bead Universe symbol around the company name. Beads in the
+  // front half pass over the title and grow; beads in the back half pass behind it, smaller and dimmer.
   const stage = document.getElementById('stage');
   const beads = Array.from(stage.querySelectorAll('.ob'));
   const cap = document.getElementById('orbit-cap');
   const capText = cap.textContent;
+  // Mid-line of the symbol's band as fractions of the symbol's width (its centre is pinned in CSS: .stage-ring).
+  const RING = { rx: 0.4295, ry: 0.221 };
   let angle = 0.42, last = 0, running = false, held = false, inView = true, geo;
 
   function measure() {
     const W = stage.clientWidth, H = stage.clientHeight;
     const narrow = W < 640;
-    const size = narrow ? Math.round(Math.min(58, Math.max(44, W * 0.13)))
+    const size = narrow ? Math.round(Math.min(48, Math.max(34, W * 0.11)))
                         : Math.round(Math.min(104, Math.max(64, W * 0.072)));
-    const rx = Math.min(W / 2 - size * 0.55, 640);
-    const ry = Math.min(rx * (narrow ? 0.7 : 0.3), H / 2 - size * 0.55);
-    geo = { cx: W / 2, cy: H / 2, rx, ry, size };
+    // As wide as the stage allows while the nearest bead still fits above the stage's bottom edge.
+    const rw = Math.max(0, Math.min(W * (narrow ? 0.96 : 0.9), (H / 2 - size / 2) / RING.ry, 1040));
+    geo = { cx: W / 2, cy: H / 2, rx: rw * RING.rx, ry: rw * RING.ry, size };
     stage.style.setProperty('--ob', size + 'px');
+    stage.style.setProperty('--rw', rw.toFixed(1) + 'px');
   }
   function place() {
     const { cx, cy, rx, ry, size } = geo;
@@ -595,7 +576,7 @@ a,button{-webkit-tap-highlight-color:transparent}
       const x = cx + rx * Math.cos(th) - size / 2, y = cy + ry * s - size / 2;
       el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${(0.56 + 0.44 * depth).toFixed(3)})`;
       el.style.zIndex = s > 0 ? 3 : 1;
-      el.style.opacity = (0.5 + 0.5 * depth).toFixed(3);
+      el.style.opacity = (0.72 + 0.28 * depth).toFixed(3);
     });
   }
   function tick(now) {
