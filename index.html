@@ -221,6 +221,33 @@ a,button{-webkit-tap-highlight-color:transparent}
 @media (max-width:1068px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:734px){.cards{grid-template-columns:minmax(0,1fr)}}
 
+
+/* careers: JobKorea postings, rewritten daily by scripts/sync-jobs.mjs between the JOBS markers */
+.careers{padding-block:clamp(96px,11vw,150px)}
+.jobs{list-style:none;padding:0;margin:0 auto;max-width:980px;display:flex;flex-direction:column;gap:12px}
+.job a{display:flex;align-items:center;gap:24px;padding:26px 28px;border-radius:24px;background:var(--mist);color:var(--ink);text-decoration:none;transition:background-color .2s ease,box-shadow .2s ease}
+.job a:hover{background:var(--white);box-shadow:0 0 0 1px var(--line),0 10px 30px rgb(0 0 0 / .06)}
+.job-main{flex:1;min-width:0}
+.job h3{font-size:clamp(19px,1.8vw,23px);font-weight:700;letter-spacing:-.03em;line-height:1.35;text-wrap:pretty}
+.job-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.job-meta span{font-size:13px;font-weight:600;color:var(--link-gray);background:var(--white);border:1px solid var(--line);border-radius:980px;padding:3px 10px}
+.job a:hover .job-meta span{background:var(--mist)}
+.job-duty{margin-top:8px;font-size:14px;color:var(--gray);line-height:1.5}
+.job-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.job-due{font-size:13px;font-weight:600;color:var(--gray)}
+.job-go{display:inline-flex;align-items:center;gap:4px;min-height:40px;padding:0 18px;border-radius:980px;background:var(--blue);color:var(--white);font-size:15px;font-weight:600;white-space:nowrap}
+.job-go svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.job a:hover .job-go{background:var(--blue-hover)}
+.jobs-empty{max-width:980px;margin:0 auto;text-align:center;color:var(--gray);font-size:17px;line-height:1.6;padding:40px 20px;border-radius:24px;background:var(--mist)}
+.jobs-empty a{color:var(--blue-text)}
+.jobs-foot{max-width:980px;margin:18px auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:var(--gray)}
+.jobs-foot a{color:var(--blue-text);text-decoration:none}
+.jobs-foot a:hover{text-decoration:underline}
+@media (max-width:734px){
+  .job a{flex-direction:column;align-items:stretch;gap:16px;padding:22px 20px}
+  .job-side{flex-direction:row;justify-content:space-between;align-items:center}
+}
+
 /* footer */
 .foot{background:var(--mist);color:var(--gray);font-size:12px;line-height:1.7;letter-spacing:0;border-top:1px solid var(--line)}
 .foot-in{max-width:1040px;padding-block:22px 40px}
@@ -283,6 +310,7 @@ a,button{-webkit-tap-highlight-color:transparent}
     <p class="hero-sub">주얼리, 가방, 리빙 브랜드를 직접 기획하고 운영합니다.</p>
     <div class="cta">
       <a class="btn" href="#brands">브랜드 보기</a>
+      <a class="btn ghost" href="#careers">채용 공고</a>
     </div>
   </div>
 </section>
@@ -460,6 +488,42 @@ a,button{-webkit-tap-highlight-color:transparent}
       <li class="card rise"><span class="no">03</span><h3>판매·마케팅</h3><p>7개 공식몰과 스마트스토어, 에이블리, 지그재그 등 주요 플랫폼에서 판매합니다. 인스타그램 팔로워 12.1만을 기반으로, 세분화된 마케팅 조직이 메타·플랫폼 광고부터 시딩, 공동구매까지 분야별로 직접 운영합니다.</p></li>
       <li class="card rise"><span class="no">04</span><h3>AI 운영 시스템</h3><p>직접 개발한 AI 에이전트 시스템으로 7개 브랜드를 소수 정예로 구축하고 운영합니다. 매출, 재고, 발주 관리와 일일 리포트를 자동화하고, 더 앞선 AI 활용을 위한 연구와 개발을 이어갑니다.</p></li>
     </ol>
+  </div>
+</section>
+
+
+<section class="careers" id="careers" aria-labelledby="careers-title">
+  <div class="band-in">
+    <header class="sec-head">
+      <p class="label">채용</p>
+      <h2 id="careers-title">함께 만들 사람을 찾습니다.</h2>
+      <p>진행 중인 공고를 누르면 잡코리아에서 바로 지원할 수 있어요.</p>
+    </header>
+    <!-- JOBS:START -->
+    <ul class="jobs">
+      <li class="job rise"><a href="https://www.jobkorea.co.kr/Recruit/GI_Read/50355962" target="_blank" rel="noopener">
+        <div class="job-main"><h3>[중국인 우대] 중국 가방 생산관리 담당자 채용</h3><p class="job-meta"><span>경력</span><span>서울</span><span>학력 무관</span></p><p class="job-duty">생산직종사자 · 생산·공정관리자 외 1개</p></div>
+        <div class="job-side"><span class="job-due">상시채용</span><span class="job-go">지원하기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7"/></svg></span></div>
+      </a></li>
+      <li class="job rise"><a href="https://www.jobkorea.co.kr/Recruit/GI_Read/50355880" target="_blank" rel="noopener">
+        <div class="job-main"><h3>릴스·쇼츠 콘텐츠 크리에이터 모집 (기획,촬영,편집)</h3><p class="job-meta"><span>신입·경력</span><span>서울</span><span>학력 무관</span></p><p class="job-duty">크리에이티브디렉터 · 콘텐츠에디터 외 1개</p></div>
+        <div class="job-side"><span class="job-due">상시채용</span><span class="job-go">지원하기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7"/></svg></span></div>
+      </a></li>
+      <li class="job rise"><a href="https://www.jobkorea.co.kr/Recruit/GI_Read/50322585" target="_blank" rel="noopener">
+        <div class="job-main"><h3>패션 잡화 브랜드 온라인 마케터 모집</h3><p class="job-meta"><span>경력</span><span>서울</span><span>학력 무관</span></p><p class="job-duty">브랜드마케터 · MD</p></div>
+        <div class="job-side"><span class="job-due">상시채용</span><span class="job-go">지원하기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7"/></svg></span></div>
+      </a></li>
+      <li class="job rise"><a href="https://www.jobkorea.co.kr/Recruit/GI_Read/50322560" target="_blank" rel="noopener">
+        <div class="job-main"><h3>패션·잡화 브랜드 AI 콘텐츠 제작자, AI크리에이터 채용</h3><p class="job-meta"><span>신입·경력</span><span>서울</span><span>학력 무관</span></p><p class="job-duty">AI콘텐츠크리에이터</p></div>
+        <div class="job-side"><span class="job-due">상시채용</span><span class="job-go">지원하기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7"/></svg></span></div>
+      </a></li>
+      <li class="job rise"><a href="https://www.jobkorea.co.kr/Recruit/GI_Read/50322540" target="_blank" rel="noopener">
+        <div class="job-main"><h3>[광고대행사 경력 우대] 패션·잡화 컨텐츠, 퍼포먼스 마케터 채용</h3><p class="job-meta"><span>신입·경력</span><span>서울</span><span>학력 무관</span></p><p class="job-duty">브랜드마케터 · 퍼포먼스마케터 외 1개</p></div>
+        <div class="job-side"><span class="job-due">상시채용</span><span class="job-go">지원하기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7"/></svg></span></div>
+      </a></li>
+    </ul>
+    <!-- JOBS:END -->
+    <p class="jobs-foot"><span class="jobs-count">5개 공고 진행 중</span><a href="https://www.jobkorea.co.kr/Recruit/Co_Read/C/48224747" target="_blank" rel="noopener">잡코리아 기업 페이지 보기</a></p>
   </div>
 </section>
 

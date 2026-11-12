@@ -1,0 +1,32 @@
+name: 채용공고 동기화 (잡코리아)
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 매일 오전 6시 (한국 시간)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-jobs
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 잡코리아에서 공고 읽어 index.html 갱신
+        run: node scripts/sync-jobs.mjs
+      - name: 바뀌었으면 올리기
+        run: |
+          if git diff --quiet; then echo "변경 없음"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "공홈 채용공고 동기화 (잡코리아)"
+          git push
