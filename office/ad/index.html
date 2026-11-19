@@ -6,8 +6,8 @@
 <title>Bead Universe Office</title>
 <meta name="description" content="비드유니버스가 직접 만든 사내 전산 — 8개 브랜드의 주문 · 재고 · 광고 · 매출 · CS 를 한 화면에서.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="Bead Universe Office — 우리 회사 전산 둘러보기">
-<meta property="og:description" content="층별로 둘러보는 사내 오피스와 AI 직원들. 숫자는 가렸어요.">
+<meta property="og:title" content="우리는 AI에 진심입니다 — Bead Universe Office">
+<meta property="og:description" content="AI 직원 11명이 24시간 일하는 사내 오피스를 층별로 둘러보세요. 숫자는 가렸어요.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bead Universe">
 <meta property="og:url" content="https://beaduniverse.kr/office/ad/">
@@ -60,6 +60,11 @@
   .stats{display:grid;grid-template-columns:repeat(4,auto);justify-content:center;gap:12px 52px;margin:44px auto 0}
   .stat b{display:block;font-size:clamp(32px,4.4vw,46px);font-weight:720;letter-spacing:-.035em;line-height:1.1}
   .stat span{font-size:13px;color:var(--dark-ink2)}
+  .stat small{display:block;font-size:12px;color:#77777d;margin-top:2px}
+  .mark{width:36px;height:18px;flex:0 0 auto}
+  .sym{display:block;width:min(300px,64vw);height:auto;margin:0 auto 30px;filter:drop-shadow(0 0 28px rgba(79,127,207,.38));animation:float 7s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-7px)}}
+  @media (max-width:734px){ br.pc{display:none} }
 
   /* 층별 안내판 */
   .dir{max-width:560px;margin:52px auto 0;border:1px solid #2c2c2e;border-radius:18px;overflow:hidden;background:#0d0d0f;text-align:left}
@@ -169,25 +174,26 @@
     .zt p{display:none}
     .zbody img{width:1100px;max-width:none}
   }
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rise{opacity:1;transform:none;transition:none}.dot{animation:none}.scr{transition:none}}
+  @media (prefers-reduced-motion:reduce){.sym{animation:none}html{scroll-behavior:auto}.js .rise{opacity:1;transform:none;transition:none}.dot{animation:none}.scr{transition:none}}
 </style>
 </head>
 <body>
 
 <nav class="nav" id="nav">
-  <a class="brand" href="#top"><i class="dot"></i>Bead Universe Office</a>
+  <a class="brand" href="#top"><img class="mark" src="img/mark.svg" alt="" width="36" height="18">Bead Universe Office</a>
   <div class="fnav" id="fnav"><a href="#f1" data-f="f1"><b>1F</b> 매출 · 광고</a><a href="#f2" data-f="f2"><b>2F</b> 재고 · 물류 · MD</a><a href="#f3" data-f="f3"><b>3F</b> CS · 팀 운영</a><a href="#f4" data-f="f4"><b>4F</b> AI 직원 · 업무 툴</a></div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="eyebrow">비드유니버스 사내 전산</div>
-  <h1><span class="grad">회사 일을,<br>한 화면에서.</span></h1>
-  <p class="lead">8개 브랜드의 주문 · 재고 · 물류 · 광고 · 매출 · CS 를 한곳에 모았어요. 직접 만든 오피스를 AI 직원들이 24시간 돌립니다.</p>
+  <img class="sym" src="img/symbol.svg" alt="Bead Universe" width="1304" height="650">
+  <div class="eyebrow">Bead Universe Office</div>
+  <h1><span class="grad">우리는 AI에<br>진심입니다.</span></h1>
+  <p class="lead">반복 일은 AI 직원 11명이 24시간 나눠 맡고, 사람은 판단에 집중해요. <br class="pc">8개 브랜드의 회사 일을 이 오피스 하나로 돌립니다.</p>
   <div class="stats">
-    <div class="stat"><b>29</b><span>업무 화면</span></div>
-    <div class="stat"><b>11</b><span>AI 직원</span></div>
-    <div class="stat"><b>40+</b><span>자동 업무</span></div>
-    <div class="stat"><b>24시간</b><span>쉬지 않는 서버</span></div>
+    <div class="stat"><b>11명</b><span>AI 직원</span><small>이름 · 팀 · 책상까지</small></div>
+    <div class="stat"><b>40+</b><span>자동 업무</span><small>매일 알아서 돌아가요</small></div>
+    <div class="stat"><b>24시간</b><span>근무</span><small>퇴근이 없어요</small></div>
+    <div class="stat"><b>5만 줄+</b><span>코드</span><small>AI와 함께 직접 짰어요</small></div>
   </div>
   <nav class="dir" aria-label="층별 안내">
     <div class="dir-h"><span>층별 안내</span><span>화면 32개</span></div>
