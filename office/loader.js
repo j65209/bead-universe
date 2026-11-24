@@ -1,4 +1,4 @@
-/* 오피스앱 입구 (beaduniverse.kr/office/).
+/* 오피스앱 입구 (beaduniverse.kr/office/) — 2026-11-24 부터 다른 사이트 입구(/insta/ · /coferry/)도 같이 쓴다 (data-app).
    앱 본체는 j65209/beaduniverse 의 GitHub Pages 에 있고, 여기서 그때그때 최신 HTML 을 받아 이 주소에 띄운다.
    복사본이 없어서 오피스앱을 push 하면 여기도 같이 바뀐다.
 
@@ -7,7 +7,8 @@
    - 대시보드 ↔ 에이전트 오피스 · 광고 리포트 링크와 설치용 manifest 는 이 주소에 머물도록 바꾼다.
    - 이 주소에서 서버를 부르려면 프록시 config.env 의 BRIGHTBEED_ALLOWED_ORIGIN 에 이 주소가 있어야 한다. */
 (function () {
-  var APP = 'https://j65209.github.io/beaduniverse/';
+  // data-app 이 있으면 그 사이트(릴스 메이커 · 코페리 디자인센터 …)를, 없으면 오피스앱 본체를 받는다
+  var APP = document.currentScript.getAttribute('data-app') || 'https://j65209.github.io/beaduniverse/';
   var here = location.origin + '/office/';
   var page = document.currentScript.getAttribute('data-page');
   var base = APP + page.replace(/[^/]*$/, '');
@@ -28,7 +29,7 @@
   function fail() {
     var msg = document.getElementById('msg');
     if (!msg) return;
-    msg.innerHTML = '오피스앱을 불러오지 못했습니다.<br><a href="' + APP + (page === 'index.html' ? '' : page) + location.search + '">원래 주소로 열기</a>';
+    msg.innerHTML = '화면을 불러오지 못했습니다.<br><a href="' + APP + (page === 'index.html' ? '' : page) + location.search + '">원래 주소로 열기</a>';
   }
 
   fetch(APP + page, { cache: 'no-cache' })
