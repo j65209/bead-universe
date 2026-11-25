@@ -1,0 +1,1085 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex,nofollow">
+<title>마일리지 항공권</title>
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+<style>
+  
+  :root {
+    --bg: #f3f5f8; --panel: #fff; --line: #e5e7eb; --line2: #d5dae2; --text: #0f172a; --t2: #475569; --t3: #94a3b8;
+    --acc: #4f7fcf; --acc-d: #2f5ea8; --acc-t: rgba(79, 127, 207, .11);
+    --p: #2457b8; --p-bg: #dfe9fb; --p-mid: #9dbbef;       
+    --f: #d42a2a; --f-bg: #fde6e6; --f-mid: #f2a8a8;       
+    --new: #ea580c;    --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
+    --top: 56px; --r: 12px;
+    --font: Pretendard, -apple-system, BlinkMacSystemFont, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+  }
+  * { box-sizing: border-box }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 var(--font); -webkit-font-smoothing: antialiased }
+  button, input, select { font-family: inherit; font-size: inherit; color: inherit }
+  button { cursor: pointer }
+  a { color: var(--acc-d) }
+  [hidden] { display: none !important }
+  .num { font-variant-numeric: tabular-nums }
+
+  
+  .top { position: sticky; top: 0; z-index: 30; min-height: var(--top); display: flex; align-items: center; gap: 10px; padding: 8px 16px;
+    background: rgba(255, 255, 255, .94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line) }
+  .back { color: var(--t2); text-decoration: none; font-weight: 600; font-size: 13px; white-space: nowrap; padding: 6px 8px; border-radius: 8px }
+  .back:hover { background: var(--bg) }
+  .ttl { font-weight: 800; font-size: 15px; letter-spacing: -.2px; white-space: nowrap; display: flex; align-items: center; gap: 8px; min-width: 0 }
+  .ttl svg { width: 20px; height: 20px; color: var(--p); flex: none }
+  .ttl small { font-weight: 600; color: var(--t3); font-size: 12px }
+  .grow { flex: 1 }
+  .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--panel); border-radius: 999px;
+    padding: 5px 11px; font-size: 12.5px; font-weight: 600; color: var(--t2); white-space: nowrap; max-width: 46vw; overflow: hidden; text-overflow: ellipsis }
+  .pill:hover { border-color: var(--line2) }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--t3); flex: none }
+  .dot.ok { background: var(--ok) } .dot.warn { background: var(--warn) } .dot.bad { background: var(--bad) }
+  .icon-btn { border: 1px solid var(--line); background: var(--panel); border-radius: 9px; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; color: var(--t2); flex: none }
+  .icon-btn:hover { border-color: var(--line2); color: var(--text) }
+  .icon-btn svg { width: 16px; height: 16px }
+  .icon-btn.spin svg { animation: spin 1s linear infinite }
+  @keyframes spin { to { transform: rotate(360deg) } }
+
+  .wrap { max-width: none; margin: 0; padding: 12px 10px 40px }   
+
+  
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px }
+  .seg { display: inline-flex; background: #e9edf3; border-radius: 10px; padding: 3px; gap: 2px }
+  .seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 13px; color: var(--t2); white-space: nowrap }
+  .seg button[aria-pressed="true"] { background: var(--panel); color: var(--text); box-shadow: 0 1px 2px rgba(15, 23, 42, .08) }
+  .seg button.cab-O[aria-pressed="true"] { color: var(--p) }
+  .seg button.cab-A[aria-pressed="true"] { color: var(--f) }
+  .seg .badge { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 4px; border-radius: 9px; background: var(--new); color: #fff; font-size: 11px; line-height: 18px; text-align: center }
+  .search { flex: 1 1 180px; min-width: 150px; max-width: 280px; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 7px 12px; outline: none }
+  .search:focus { border-color: var(--acc) }
+  .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 10px }
+  .chips::-webkit-scrollbar { display: none }
+  .chip { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 5px 11px; font-size: 12.5px; font-weight: 600; color: var(--t2); white-space: nowrap }
+  .chip[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: #fff }
+  .chip b { font-weight: 700; margin-left: 3px; opacity: .65 }
+
+  .summary { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; margin: 2px 0 14px; color: var(--t2); font-size: 13px }
+  .summary strong { color: var(--text); font-size: 18px; font-weight: 800; letter-spacing: -.3px; margin-right: 3px }
+  .notice { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; border-radius: var(--r); padding: 10px 14px; margin: 0 0 14px; font-size: 13px }
+  .notice.info { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a }
+
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r) }
+
+  
+  .months { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; padding-bottom: 8px; margin-bottom: 6px }
+  .mbtn { flex: 1 0 74px; min-width: 74px; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 6px 6px 7px; text-align: left }
+  .mbtn[aria-pressed="true"] { border-color: var(--p); box-shadow: 0 0 0 1px var(--p) inset }
+  .mbtn .y { display: block; font-size: 10.5px; color: var(--t3); line-height: 1.1 }
+  .mbtn .m { font-weight: 800; font-size: 14px }
+  .mbtn .c { display: block; font-size: 11px; color: var(--t2); margin-top: 1px }
+  .mbtn .meter { display: block; height: 4px; border-radius: 2px; background: #eef1f5; margin-top: 4px; overflow: hidden }
+  .mbtn .meter i { display: block; height: 100%; background: var(--p) }
+  .cal-wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-items: start }   
+  .cal { padding: 8px }
+  .cal-head { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 10px }
+  .cal-head h2 { margin: 0; font-size: 17px; letter-spacing: -.3px }
+  .cal-head .nav { display: flex; gap: 6px }
+  .dow, .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px }
+  .dow div { text-align: center; font-size: 11.5px; font-weight: 700; color: var(--t3); padding-bottom: 4px }
+  .dow div:first-child { color: #e11d48 } .dow div:last-child { color: #2563eb }
+  .day { min-height: 92px; border: 1px solid var(--line); border-radius: 9px; background: #fff; padding: 5px 6px; text-align: left; display: flex; flex-direction: column; gap: 3px; position: relative; overflow: hidden }
+  .day.empty { border: 0; background: transparent; cursor: default }
+  .day.off { background: #f7f8fa; color: var(--t3); cursor: default }
+  .day .dn { font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: 4px }
+  .day.sun .dn > span:first-child { color: #e11d48 } .day.sat .dn > span:first-child { color: #2563eb }
+  .day.today { border-color: var(--text) }
+  .day .cnt { font-size: 11px; font-weight: 800; color: var(--p); white-space: nowrap }
+  .day .cnt i { font-style: normal }
+  .day .cities { display: flex; flex-wrap: wrap; gap: 2px; min-width: 0 }   
+  .day .city { font-size: 11px; line-height: 15px; border-radius: 4px; padding: 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; background: var(--p-bg); color: var(--p) }
+  .day .city.f { background: var(--f-bg); color: var(--f) }
+  .day .more { font-size: 10.5px; color: var(--t3) }
+  .day.has { cursor: pointer }
+  .day.has:hover { border-color: var(--p-mid) }
+  .day.sel { border-color: var(--p); box-shadow: 0 0 0 1px var(--p) inset }
+  .day.lv1 { background: #fbfcff } .day.lv2 { background: #f3f7fe } .day.lv3 { background: #e9f0fd }
+  .day .nw { width: 7px; height: 7px; border-radius: 50%; background: var(--new); flex: none }
+
+  .side { padding: 14px; min-width: 0 }
+  .side-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px }
+  .side-h .tk-nav { display: flex; gap: 6px; flex: none }
+  .side h3 { margin: 0 0 2px; font-size: 16px; letter-spacing: -.3px }
+  
+  .tks { display: flex; gap: 10px; align-items: flex-start; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; overscroll-behavior-x: contain; scroll-padding: 0 2px; padding: 2px 2px 8px; margin: 0 -2px }
+  .tks .tk { flex: 0 0 310px; margin-bottom: 0; scroll-snap-align: start }
+  .side .sub { color: var(--t3); font-size: 12.5px; margin-bottom: 10px }
+  .empty-msg { color: var(--t3); font-size: 13px; padding: 18px 4px; text-align: center }
+
+  
+  .pc { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; background: #fff }
+  .pc-h { display: flex; align-items: baseline; justify-content: space-between; gap: 8px }
+  .pc-h b { font-size: 14.5px; letter-spacing: -.2px }
+  .pc-h span { color: var(--t3); font-size: 12px; white-space: nowrap }
+  .fl { display: flex; align-items: center; gap: 6px; font-size: 12.5px; margin-top: 5px; flex-wrap: wrap }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 5px; background: var(--p-bg); color: var(--p); white-space: nowrap }
+  .tag.A { background: var(--f-bg); color: var(--f) }
+  .tag.new { background: var(--new); color: #fff }
+  .tag.hub { background: #eef1f5; color: var(--t2) }
+  .link { border: 0; background: none; padding: 0; color: var(--acc-d); font-weight: 600; font-size: 12.5px; text-decoration: underline; text-underline-offset: 2px }
+
+  
+  .rgn { margin-bottom: 18px }
+  .rgn h3 { font-size: 14px; margin: 0 0 8px; color: var(--t2); display: flex; gap: 8px; align-items: baseline }
+  .rgn h3 small { color: var(--t3); font-weight: 600 }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px }
+  .card { text-align: left; border: 1px solid var(--line); border-radius: 11px; background: #fff; padding: 11px 12px; display: flex; flex-direction: column; gap: 5px }
+  .card:hover { border-color: var(--p-mid) }
+  .card .nm { font-weight: 800; font-size: 14.5px; letter-spacing: -.2px }
+  .card .nm small { font-weight: 600; color: var(--t3); font-size: 12px; margin-left: 4px }
+  .card .row { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--t2); gap: 8px }
+  .card .row b { color: var(--text) }
+  .spark { display: grid; grid-template-columns: repeat(13, 1fr); gap: 2px; height: 16px; align-items: end }
+  .spark i { display: block; background: var(--p-bg); border-radius: 2px; min-height: 2px }
+  .spark i.on { background: var(--p) }
+  .none-line { color: var(--t3); font-size: 12.5px; margin-top: 4px }
+
+  
+  .list { padding: 6px 0 }
+  .li { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 14px; border-top: 1px solid var(--line) }
+  .li:first-child { border-top: 0 }
+  .li .d { font-weight: 700 }
+  .li .w { color: var(--t3); font-size: 12px; white-space: nowrap }
+
+  
+
+  
+  .modal { position: fixed; inset: 0; z-index: 100; background: rgba(15, 23, 42, .42); display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow: auto }
+  .sheet { background: var(--panel); border-radius: 14px; width: min(980px, 100%); padding: 18px 18px 20px; box-shadow: 0 20px 60px rgba(15, 23, 42, .25) }
+  .sheet-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px }
+  .sheet-h h2 { margin: 0; font-size: 19px; letter-spacing: -.4px }
+  .sheet-h .sub { color: var(--t2); font-size: 13px; margin-top: 2px }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--t2); margin: 6px 0 10px }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; vertical-align: -1px; margin-right: 4px }
+  .yr { margin-bottom: 16px }
+  .yr h4 { margin: 0 0 6px; font-size: 14px; display: flex; gap: 8px; align-items: baseline }
+  .yr h4 small { color: var(--t3); font-weight: 600 }
+  .hm { display: grid; grid-template-columns: 52px repeat(31, minmax(0, 1fr)); gap: 2px; font-size: 10.5px }
+  .hm .ml { color: var(--t2); font-weight: 700; display: flex; align-items: center; white-space: nowrap }
+  .hm .dh { color: var(--t3); text-align: center }
+  .hm .yy { color: var(--t3); font-weight: 600; margin-right: 2px; font-size: 9.5px }
+  .hm button { border: 0; padding: 0; height: 18px; border-radius: 3px; background: #eef1f5; min-width: 0 }
+  .hm button.x { background: transparent; cursor: default }
+  .hm button.off { background: #f6f7f9; cursor: default }
+  .hm button.O { background: var(--p) } .hm button.A { background: var(--f) }
+  .hm button.OA { background: linear-gradient(135deg, var(--p) 50%, var(--f) 50%) }
+  .hm button.pick { outline: 2px solid var(--text); outline-offset: 1px }
+  .hm button.dim { opacity: .25 }
+  .hm button.ret { box-shadow: 0 0 0 2px #fff inset, 0 0 0 1px var(--text) }
+  .hm button.on-sel { outline: 2px solid var(--new); outline-offset: 1px }
+  .pick-box { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--t2); margin-bottom: 14px; background: #fafbfc }
+  .pick-box b { color: var(--text) }
+  .rets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px }
+  .rets span { border: 1px solid var(--line); border-radius: 7px; padding: 2px 7px; background: #fff; font-size: 12px; white-space: nowrap }
+  
+  .rets span.w { border-color: var(--text); color: var(--text); font-weight: 700 }
+  .hm button.ret.w { box-shadow: 0 0 0 2px #fff inset, 0 0 0 2px var(--text) }
+  .day .city.q { background: transparent; box-shadow: inset 0 0 0 1px var(--p-mid) }
+  .fl .mi { color: var(--t2); font-size: 12px }
+  .tag.ke { background: #eef1f5; color: var(--t2) }
+
+  
+  .tk { position: relative; border: 1px solid var(--line2); border-radius: 12px; padding: 0 14px 12px 19px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .07) }
+  
+  .tk-top { margin: 0 -14px 0 -19px; padding: 12px 14px 12px 19px; border-radius: 11px 11px 0 0; background: linear-gradient(var(--p), var(--p)) left / 6px 100% no-repeat }
+  .tk-top.A { background: linear-gradient(var(--f), var(--f)) left / 6px 100% no-repeat }
+  .tk-top.OA { background: linear-gradient(var(--p) 50%, var(--f) 50%) left / 6px 100% no-repeat }
+  .tk .pc-h b { font-size: 17px; font-weight: 800; letter-spacing: -.4px }
+  .tk .fl { margin-top: 7px; gap: 6px 7px }
+  .tk .fl .fn, .tk .fl .tm { font-size: 15.5px; font-weight: 800; letter-spacing: -.2px }
+  .tk .fl .tm { font-weight: 700 }
+  
+  .ar { color: var(--t2); font-weight: 600; white-space: nowrap }
+  .ar sup { font-size: .68em; font-weight: 800; margin-left: 1px; color: var(--warn) }
+  .tk .fl .ar { font-size: 14px; font-weight: 700; margin-left: -2px }
+  .rf .ar { color: inherit; opacity: .8; margin-left: 3px }
+  .rf .ar sup { color: inherit }
+  .tag.cab { font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--p); color: #fff }
+  .tag.cab.A { background: var(--f) }
+  
+  .tk .cut { position: relative; border-top: 2px dashed var(--line2); margin: 0 -14px 10px -19px }
+  .tk .cut::before, .tk .cut::after { content: ''; position: absolute; top: -9px; width: 9px; height: 16px; background: var(--panel); border: 1px solid var(--line2) }
+  .tk .cut::before { left: -1px; border-left: 0; border-radius: 0 9px 9px 0 }
+  .tk .cut::after { right: -1px; border-right: 0; border-radius: 9px 0 0 9px }
+  .tk .rt { display: grid; gap: 7px }
+  .tk .rr { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 8px; align-items: start }
+  .tk .rr .dt { font-weight: 800; font-size: 14px; line-height: 1.25; white-space: nowrap; padding-top: 2px }
+  .tk .rr .dt small { display: block; font-size: 12px; font-weight: 700; color: var(--t2) }
+  .tk .rfs { display: flex; flex-wrap: wrap; gap: 5px }
+  .rf { display: inline-block; border: 1px solid var(--p-mid); background: var(--p-bg); color: var(--p); border-radius: 7px; padding: 3px 8px; font-size: 12.5px; font-weight: 600; white-space: nowrap; line-height: 1.35 }
+  .rf b { font-weight: 800 }
+  .rf.A { border-color: var(--f-mid); background: var(--f-bg); color: var(--f) }
+  .rf.long { white-space: normal }   
+  .tk .rt-st { font-size: 13px; font-weight: 700; color: var(--t2) }
+  .tk .rt-st.unk { color: var(--warn) }
+  .lg { display: inline-flex; gap: 10px; margin-left: 8px; color: var(--t2) }
+  .lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; background: var(--p) }
+  .lg i.A { background: var(--f) }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin: 6px 0 14px }
+  .stat { border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px }
+  .stat .k { color: var(--t3); font-size: 12px }
+  .stat .v { font-size: 15px; font-weight: 800; margin-top: 2px }
+  .progress { height: 6px; background: #eef1f5; border-radius: 3px; overflow: hidden; margin-top: 6px }
+  .progress i { display: block; height: 100%; background: var(--p) }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12.5px }
+  .tbl th, .tbl td { border-bottom: 1px solid var(--line); padding: 6px 6px; text-align: left; white-space: nowrap }
+  .tbl th { color: var(--t3); font-weight: 700 }
+  .btn { border: 1px solid var(--line2); background: #fff; border-radius: 8px; padding: 5px 10px; font-weight: 600; font-size: 12.5px }
+  .btn.pri { background: var(--p); border-color: var(--p); color: #fff }
+  .btn.danger { color: var(--bad) }
+  .x-btn { border: 0; background: #eef1f5; border-radius: 8px; width: 32px; height: 32px; font-size: 18px; line-height: 1; color: var(--t2); flex: none }
+
+  .lock { position: fixed; inset: 0; z-index: 400; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; text-align: center }
+  .lock h2 { margin: 0 0 6px; font-size: 18px }
+  .lock p { margin: 0; color: var(--t2); font-size: 13px }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text); color: #fff; border-radius: 10px; padding: 10px 16px; font-size: 13px; z-index: 500; max-width: calc(100% - 32px) }
+  .toast.err { background: var(--bad) }
+  .loading { padding: 50px 0; text-align: center; color: var(--t3) }
+
+  @media (max-width: 920px) {
+  }
+  @media (max-width: 640px) {
+    .top { padding: 8px 12px; gap: 6px }
+    .ttl small { display: none }
+    .wrap { padding: 10px 6px 40px }
+    .cal { padding: 5px }
+    .side { padding: 10px }
+    .tks .tk { flex-basis: calc(100% - 34px) }   
+    .day { min-height: 54px; padding: 3px; border-radius: 7px }
+    .day .cities { gap: 1px }
+    .day .city { font-size: 9.5px; line-height: 13px; padding: 0 2px; border-radius: 3px; text-overflow: clip; width: 100% }
+    .day .dn { flex-wrap: wrap; row-gap: 4px }
+    .day .cnt { flex-basis: 100%; text-align: right; font-size: 12.5px }
+    .day .cnt i { display: none }
+    .ttl { flex: 1 1 auto; overflow: hidden }
+    .ttl span { overflow: hidden; text-overflow: ellipsis }
+    .grow { display: none }
+    .pill { max-width: 40vw }
+    .dow, .grid { gap: 2px }
+    .hm { grid-template-columns: 34px repeat(31, minmax(0, 1fr)); gap: 1px }
+    .hm .dh { visibility: hidden }
+    .hm button { height: 14px; border-radius: 2px }
+    .li { grid-template-columns: 74px minmax(0, 1fr); }
+    .li .w { grid-column: 2 }
+    .modal { padding: 16px 0 0; align-items: flex-end }
+    .sheet { border-radius: 14px 14px 0 0; padding: 16px }
+    .search { max-width: none }
+  }
+  
+  .ios-top{display:none}
+  @media (max-width:1000px){ .top{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none} }   
+  @media (max-width:1000px) and (min-height:521px){
+    html.ios-solo .ios-top{display:block;position:fixed;top:0;left:0;right:0;z-index:40;height:calc(env(safe-area-inset-top,0px) + 12px);background:#fff}
+    html.ios-solo body{padding-top:calc(env(safe-area-inset-top,0px) + 12px)}
+    html.ios-solo .top{top:calc(env(safe-area-inset-top,0px) + 12px)}
+  }
+</style>
+<script> try{if(window.parent===window&&window.CSS&&CSS.supports('-webkit-touch-callout','none'))document.documentElement.classList.add('ios-solo')}catch(e){}</script>
+</head>
+<body>
+<div class="ios-top" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="ttl">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+    <span>마일리지 항공권</span><small>대한항공</small>
+  </div>
+  <div class="grow"></div>
+  <span class="pill"><span class="dot" id="statusDot"></span><span id="statusTxt">불러오는 중</span></span>
+  <button class="icon-btn" id="reloadBtn" type="button" title="다시 불러오기" aria-label="다시 불러오기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+  </button>
+</header>
+
+<main class="wrap" id="app" hidden>
+  <div class="bar">
+    <div class="seg" id="cabSeg" role="group" aria-label="좌석 등급">
+      <button type="button" class="cab-O" data-cab="O" aria-pressed="true">프레스티지</button>
+      <button type="button" class="cab-A" data-cab="A" aria-pressed="false">일등석</button>
+    </div>
+    <div class="seg" id="dirSeg" role="group" aria-label="방향">
+      <button type="button" data-dir="out" aria-pressed="true">가는 편 · 한국 출발</button>
+      <button type="button" data-dir="in" aria-pressed="false">오는 편 · 한국 도착</button>
+    </div>
+    <div class="seg" id="skySeg" role="group" aria-label="항공사" hidden>
+      <button type="button" data-sky="" aria-pressed="true">전체</button>
+      <button type="button" data-sky="1" aria-pressed="false">스카이팀</button>
+    </div>
+    <div class="seg" id="tabSeg" role="group" aria-label="보기">
+      <button type="button" data-tab="cal" aria-pressed="true">달력</button>
+      <button type="button" data-tab="places" aria-pressed="false">나라별</button>
+      <button type="button" data-tab="new" aria-pressed="false">새로 열림<span class="badge" id="newBadge" hidden></span></button>
+    </div>
+  </div>
+  <div class="chips" id="regionChips" role="group" aria-label="지역"></div>
+  <div id="notices"></div>
+  <div class="summary" id="summary"></div>
+
+  <section id="viewCal">
+    <div class="months" id="monthStrip"></div>
+    <div class="cal-wrap">
+      <div class="panel cal">
+        <div class="cal-head">
+          <h2 id="calTitle"></h2>
+          <div class="nav">
+            <button class="icon-btn" type="button" id="prevM" aria-label="이전 달"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button class="icon-btn" type="button" id="nextM" aria-label="다음 달"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+        <div class="dow"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+        <div class="grid" id="calGrid"></div>
+      </div>
+      <aside class="panel side" id="dayPanel"></aside>
+    </div>
+  </section>
+
+  <section id="viewPlaces" hidden></section>
+  <section id="viewNew" class="panel" hidden></section>
+
+</main>
+
+<div class="modal" id="placeModal" hidden><div class="sheet" id="placeSheet" role="dialog" aria-modal="true"></div></div>
+
+<div id="lock" class="lock" hidden>
+  <h2>열 수 없는 링크예요</h2>
+  <p>받은 링크를 처음부터 끝까지 그대로 열었는지 확인해 주세요. 그래도 안 열리면 링크가 꺼진 거예요.</p>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function () {
+  'use strict';
+  const API = 'https://ckyjkxbqsyjoqpuqwoce.supabase.co/functions/v1/mile-share';
+  const $ = id => document.getElementById(id);
+  const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {   } };
+
+  const KEY = new URLSearchParams(location.hash.slice(1)).get('k') || lsGet('mlf_key') || '';
+  function lockOut() { S.data = null; $('app').hidden = true; $('lock').hidden = false; try { localStorage.removeItem('mlf_key'); } catch (e) {   } }
+  if (!KEY) { $('lock').hidden = false; return; }
+  $('app').hidden = false;
+  window.addEventListener('hashchange', () => location.reload());
+
+  const HUBS = { ICN: '인천', GMP: '김포' };
+
+  const REGIONS = [['all', '전체'], ['eu', '유럽'], ['am', '미주'], ['oc', '대양주'], ['me', '중동'], ['swa', '서남아 · 중앙아'], ['sea', '동남아'],
+    ['pac', '괌 · 사이판 · 팔라우'], ['nea', '홍콩 · 대만 · 몽골'], ['cn', '중국'], ['jp', '일본'], ['etc', '기타']];
+  const REGION_NAME = Object.fromEntries(REGIONS);
+  const REGION_RANK = Object.fromEntries(REGIONS.map(([k], i) => [k, i]));
+  const regionCmp = (a, b) => (REGION_RANK[a.region] ?? 99) - (REGION_RANK[b.region] ?? 99);
+  const CAB = { O: '프레스티지', A: '일등석' };
+  const LS = { cab: 'mlf_cabins', dir: 'mlf_dir', region: 'mlf_region', tab: 'mlf_tab', rt: 'mlf_rt', fresh: 'mlf_fresh' };
+  const NEW_MS = 72 * 3600e3;
+
+  const VIA_ON = false;
+  const R2_GROUPS = VIA_ON ? 54 : 28;
+
+  const RT = [2, 5];
+
+  const S = {
+    data: null, status: null, seats: [], via: [], all: [], routes: new Map(), places: new Map(),
+    cabins: new Set((lsGet(LS.cab) || 'OA').split('').filter(c => c === 'O' || c === 'A')),
+    dir: lsGet(LS.dir) === 'in' ? 'in' : 'out',
+    region: REGION_NAME[lsGet(LS.region)] ? lsGet(LS.region) : 'all',
+    tab: ['cal', 'places', 'new'].includes(lsGet(LS.tab)) ? lsGet(LS.tab) : 'cal',
+    rt: true,
+    fresh: 0,
+
+    sky: false,
+    src: 'ke',
+    q: '', month: null, day: null, loading: false,
+    modal: null,
+  };
+  if (!S.cabins.size) S.cabins.add('O');
+
+  const pad = n => String(n).padStart(2, '0');
+  const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parseD = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const addDays = (s, n) => { const d = parseD(s); d.setDate(d.getDate() + n); return iso(d); };
+  const dayDiff = (a, b) => Math.round((parseD(b) - parseD(a)) / 864e5);
+  const DOW = ['일', '월', '화', '수', '목', '금', '토'];
+  const fmtD = s => { const d = parseD(s); return `${d.getMonth() + 1}/${d.getDate()}(${DOW[d.getDay()]})`; };
+  const fmtLong = s => { const d = parseD(s); return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${DOW[d.getDay()]}요일`; };
+  const won = n => n.toLocaleString('ko-KR');
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function rel(t) {
+    if (!t) return '—';
+    const m = Math.round((Date.now() - Date.parse(t)) / 6e4);
+    if (m < 1) return '방금'; if (m < 60) return m + '분 전';
+    const h = Math.round(m / 60); if (h < 24) return h + '시간 전';
+    return Math.round(h / 24) + '일 전';
+  }
+  function hm(t) { try { return new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(t)); } catch (e) { return String(t).slice(0, 16); } }
+  let toastT = 0;
+  function toast(msg, err) {
+    const t = $('toast'); t.textContent = msg; t.className = 'toast' + (err ? ' err' : ''); t.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, err ? 4200 : 2400);
+  }
+  async function getCal() {
+    if (typeof DecompressionStream === 'undefined') throw new Error('브라우저를 최신으로 올려 주세요');
+    const r = await fetch(API, { cache: 'no-store', headers: { 'x-mile-key': KEY } });
+    if (r.status === 403) { const e = new Error('link'); e.link = true; throw e; }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    lsSet('mlf_key', KEY);
+    return new Response(r.body.pipeThrough(new DecompressionStream('gzip'))).json();
+  }
+
+  function ingest(d) {
+    S.data = d;
+    S.routes = new Map(); S.places = new Map();
+    for (const r of d.routes || []) {
+      S.routes.set(r.o + '-' + r.d, r);
+      if (!S.places.has(r.p)) S.places.set(r.p, { code: r.p, city: r.city, country: r.country, region: r.region, zone: r.zone, routes: [], sort: S.places.size });
+      S.places.get(r.p).routes.push(r);
+    }
+    S.seats = []; S.via = [];
+    const r2 = d.r2 && Array.isArray(d.r2.seats) ? d.r2 : null;
+    S.src = r2 ? 'r2' : 'ke';
+    if (r2) {
+
+      const keIdx = new Set((d.seats || []).map(a => a[0] + '|' + a[1] + '|' + a[2] + '|' + a[3] + '|' + a[5]));
+      const scan = d.scan || {};
+
+      const add = (a, list) => {
+        const out = !!HUBS[a[1]];
+        if (!out && !HUBS[a[2]]) return;
+        const code = out ? a[2] : a[1];
+        const r = S.routes.get(a[1] + '-' + a[2]);
+        let p = r ? r.p : code;
+        if (!S.places.has(p)) {
+          S.places.set(p, { code: p, city: (out ? a[15] : a[14]) || p, country: '', region: 'etc', zone: 'long', routes: [], sort: 1000 + S.places.size });
+        }
+        let ke = null;
+        if (a[0] === 'koreanair') {
+          const sc = scan[a[1] + '-' + a[2]], at = sc && sc.mt && sc.mt[a[3].slice(0, 7)];
+          if (at) {
+            if (keIdx.has(a[1] + '|' + a[2] + '|' + a[3] + '|' + a[4] + '|' + a[6])) ke = { st: 'open', at };
+            else if (!a[11] || Date.parse(at) > Date.parse(a[11])) ke = { st: 'closed', at };
+          }
+        }
+
+        const segs = Array.isArray(a[17]) && a[17].length > 1 ? a[17] : null;
+        list.push({ scope: a[0], o: a[1], d: a[2], date: a[3], fn: a[4], t: a[5], c: a[6], n: a[7], al: a[8], st: a[9], mi: a[10],
+          obs: a[11], first: a[12], opened: !!a[13], p, dir: out ? 'out' : 'in', hub: out ? a[1] : a[2], ke,
+          segs, dur: segs ? a[16] : null, arr: segs ? segs[segs.length - 1][4] : null });
+      };
+      for (const a of r2.seats) add(a, S.seats);
+      if (VIA_ON) for (const a of r2.via || []) add(a, S.via);
+    } else {
+      for (const a of d.seats || []) {
+        const r = S.routes.get(a[0] + '-' + a[1]);
+        if (!r) continue;
+        const out = !!HUBS[a[0]];
+        S.seats.push({ o: a[0], d: a[1], date: a[2], fn: a[3], t: a[4], c: a[5], first: a[6], opened: !!a[7], p: r.p, dir: out ? 'out' : 'in', hub: out ? a[0] : a[1] });
+      }
+    }
+    S.all = S.seats.concat(S.via);
+    S.today = d.today; S.last = addDays(d.today, 360);
+    if (!S.month || S.month < S.today.slice(0, 7) || S.month > S.last.slice(0, 7)) S.month = S.today.slice(0, 7);
+  }
+  function matchQ(p) {
+    const q = S.q.trim().toLowerCase();
+    if (!q) return true;
+    return (p.city + ' ' + p.country + ' ' + p.code + ' ' + (REGION_NAME[p.region] || '')).toLowerCase().includes(q);
+  }
+  function placeOk(p, ignoreRegion) { return p && (ignoreRegion || S.region === 'all' || p.region === S.region) && matchQ(p); }
+  function filtered(opts) {
+    opts = opts || {};
+    const dir = opts.dir || S.dir;
+
+    const rt = opts.rt != null ? opts.rt : S.rt;
+    return pool().filter(s => s.dir === dir && seatOk(s) && placeOk(S.places.get(s.p), opts.ignoreRegion) &&
+      (skyOn() ? skyShow(s, rt) : !rt || rtInfo(s.p, s.date, dir).state !== 'no'));
+  }
+
+  const skyOn = () => S.sky && S.src === 'r2';
+  const pool = () => skyOn() ? S.all : S.seats;
+  const isSky = s => s.scope === 'skyteam' || s.scope === 'skyvia';
+
+  const skyShow = (s, rt) => isSky(s) ? (!rt || rtSeat(s).state !== 'no') : rtSeat(s).state === 'ok';
+
+  const pairOk = (o, i) => !o.arr || o.arr < i.date + 'T' + (i.t || '24:00');
+
+  function rtSeat(s) {
+    const R = retIndex();
+    if (R.memo.has(s)) return R.memo.get(s);
+    const want = s.dir === 'out' ? 'in' : 'out', p = S.places.get(s.p), byDate = R.idx[want].get(s.p), hits = [], unk = [];
+    for (let n = RT[0]; n <= RT[1]; n++) {
+      const k = addDays(s.date, s.dir === 'out' ? n : -n);
+      const a = ((byDate && byDate.get(k)) || []).filter(x => (isSky(s) || isSky(x)) && (s.dir === 'out' ? pairOk(s, x) : pairOk(x, s)));
+      if (a.length) hits.push({ date: k, n, list: a });
+      else if (s.dir === 'in' && k < S.today) continue;
+      else if (k > S.last || !p || !monthChecked(p, k.slice(0, 7), want)) unk.push(k);
+    }
+    const r = { hits, unk, state: hits.length ? 'ok' : unk.length ? 'unk' : 'no' };
+    R.memo.set(s, r);
+    return r;
+  }
+
+  function rtSky(code, date, dir) {
+    const R = retIndex(), key = 'sky|' + dir + '|' + code + '|' + date;
+    if (R.memo.has(key)) return R.memo.get(key);
+    const own = (R.idx[dir].get(code) && R.idx[dir].get(code).get(date)) || [], by = new Map(), unk = new Set();
+    for (const s of own) {
+      const x = rtSeat(s);
+      for (const h of x.hits) { if (!by.has(h.date)) by.set(h.date, { date: h.date, n: h.n, set: new Set() }); h.list.forEach(i => by.get(h.date).set.add(i)); }
+      if (isSky(s)) x.unk.forEach(k => unk.add(k));
+    }
+    const hits = [...by.values()].map(h => ({ date: h.date, n: h.n, list: [...h.set] })).sort((x, y) => x.date.localeCompare(y.date));
+    const r = { hits, unk: [...unk], state: hits.length ? 'ok' : unk.size ? 'unk' : 'no' };
+    R.memo.set(key, r);
+    return r;
+  }
+  const cityOf = code => { const p = S.places.get(code); return (p && p.city) || code; };
+  const fnTxt = s => String(s.fn || '').replace(/\+/g, ' + ');
+  const durTxt = m => m ? `${Math.floor(m / 60)}시간${m % 60 ? ' ' + m % 60 + '분' : ''}` : '';
+  const viaTxt = s => s.segs ? `${s.segs.slice(0, -1).map(x => cityOf(x[2])).join(' · ')} 경유` : '';
+
+  const APT = {
+    AKL: ['Pacific/Auckland', 680, 720], ALA: ['Asia/Almaty', 420, 380], AMS: ['Europe/Amsterdam', 850, 740], AOJ: ['Asia/Tokyo', 150, 165],
+    ATL: ['America/New_York', 830, 900], BCN: ['Europe/Madrid', 870, 770], BKI: ['Asia/Kuching', 310, 290], BKK: ['Asia/Bangkok', 345, 320],
+    BNE: ['Australia/Brisbane', 600, 615], BOM: ['Asia/Kolkata', 590, 540], BOS: ['America/New_York', 800, 900], BUD: ['Europe/Budapest', 790, 700],
+    CAN: ['Asia/Shanghai', 220, 200], CDG: ['Europe/Paris', 845, 750], CEB: ['Asia/Manila', 285, 265], CGK: ['Asia/Jakarta', 420, 410],
+    CGO: ['Asia/Shanghai', 150, 130], CMB: ['Asia/Colombo', 530, 500], CNX: ['Asia/Bangkok', 340, 310], CPH: ['Europe/Copenhagen', 810, 720],
+    CRK: ['Asia/Manila', 240, 225], CSX: ['Asia/Shanghai', 165, 145], CTS: ['Asia/Tokyo', 160, 175], CXR: ['Asia/Ho_Chi_Minh', 315, 285],
+    DAD: ['Asia/Ho_Chi_Minh', 280, 260], DEL: ['Asia/Kolkata', 520, 480], DFW: ['America/Chicago', 765, 880], DLC: ['Asia/Shanghai', 95, 80],
+    DPS: ['Asia/Makassar', 425, 410], DXB: ['Asia/Dubai', 600, 540], FCO: ['Europe/Rome', 860, 765], FRA: ['Europe/Berlin', 840, 735],
+    FUK: ['Asia/Tokyo', 80, 90], GUM: ['Pacific/Guam', 260, 280], HAN: ['Asia/Ho_Chi_Minh', 270, 250], HGH: ['Asia/Shanghai', 125, 110],
+    HKG: ['Asia/Hong_Kong', 220, 200], HKT: ['Asia/Bangkok', 385, 365], HND: ['Asia/Tokyo', 135, 150], HNL: ['Pacific/Honolulu', 490, 600],
+    IAD: ['America/New_York', 800, 870], IST: ['Europe/Istanbul', 720, 630], JFK: ['America/New_York', 830, 900], KHH: ['Asia/Taipei', 165, 150],
+    KIJ: ['Asia/Tokyo', 115, 130], KIX: ['Asia/Tokyo', 105, 120], KMG: ['Asia/Shanghai', 270, 240], KMJ: ['Asia/Tokyo', 85, 95],
+    KMQ: ['Asia/Tokyo', 115, 125], KOJ: ['Asia/Tokyo', 90, 100], KTM: ['Asia/Kathmandu', 470, 420], KUL: ['Asia/Kuala_Lumpur', 395, 375],
+    LAS: ['America/Los_Angeles', 650, 780], LAX: ['America/Los_Angeles', 660, 780], LHR: ['Europe/London', 875, 765], LIS: ['Europe/Lisbon', 930, 840],
+    MAD: ['Europe/Madrid', 900, 800], MLE: ['Indian/Maldives', 560, 520], MNL: ['Asia/Manila', 235, 220], MXP: ['Europe/Rome', 835, 745],
+    NAN: ['Pacific/Fiji', 600, 610], NGO: ['Asia/Tokyo', 110, 125], NKG: ['Asia/Shanghai', 120, 105], NRT: ['Asia/Tokyo', 140, 155],
+    OIT: ['Asia/Tokyo', 90, 100], OKA: ['Asia/Tokyo', 140, 130], ORD: ['America/Chicago', 760, 850], PEK: ['Asia/Shanghai', 125, 110],
+    PNH: ['Asia/Phnom_Penh', 330, 305], PQC: ['Asia/Ho_Chi_Minh', 345, 315], PRG: ['Europe/Prague', 805, 720], PVG: ['Asia/Shanghai', 115, 100],
+    RGN: ['Asia/Yangon', 380, 350], ROR: ['Pacific/Palau', 300, 290], RUH: ['Asia/Riyadh', 660, 600], SAI: ['Asia/Phnom_Penh', 330, 300],
+    SEA: ['America/Los_Angeles', 600, 720], SFO: ['America/Los_Angeles', 630, 760], SGN: ['Asia/Ho_Chi_Minh', 320, 285], SHA: ['Asia/Shanghai', 110, 100],
+    SHE: ['Asia/Shanghai', 105, 95], SIN: ['Asia/Singapore', 395, 380], SPN: ['Pacific/Saipan', 255, 270], SYD: ['Australia/Sydney', 625, 640],
+    SZX: ['Asia/Shanghai', 220, 200], TAO: ['Asia/Shanghai', 80, 75], TAS: ['Asia/Tashkent', 470, 430], TLV: ['Asia/Jerusalem', 700, 640],
+    TNA: ['Asia/Shanghai', 95, 85], TPE: ['Asia/Taipei', 150, 140], TSA: ['Asia/Taipei', 150, 140], TSN: ['Asia/Shanghai', 110, 95],
+    ULN: ['Asia/Ulaanbaatar', 210, 190], VIE: ['Europe/Vienna', 800, 715], VTE: ['Asia/Vientiane', 330, 300], WUH: ['Asia/Shanghai', 170, 150],
+    XIY: ['Asia/Shanghai', 180, 155], XMN: ['Asia/Shanghai', 175, 160], YNJ: ['Asia/Shanghai', 110, 95], YVR: ['America/Vancouver', 580, 690],
+    YYZ: ['America/Toronto', 770, 875], ZAG: ['Europe/Zagreb', 820, 720], ZRH: ['Europe/Zurich', 835, 740],
+  };
+  const KST = 'Asia/Seoul';
+  const tzFmt = {};
+  function wall(ms, tz) {
+    const f = tzFmt[tz] || (tzFmt[tz] = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }));
+    const o = {}; for (const p of f.formatToParts(new Date(ms))) o[p.type] = +p.value;
+    return [o.year, o.month, o.day, o.hour % 24, o.minute];
+  }
+  function toUtc(date, t, tz) {
+    const [y, m, d] = date.split('-').map(Number), [h, mi] = t.split(':').map(Number), guess = Date.UTC(y, m - 1, d, h, mi);
+    let ms = guess;
+    for (let i = 0; i < 2; i++) { const w = wall(ms, tz); ms = guess - (Date.UTC(w[0], w[1] - 1, w[2], w[3], w[4]) - ms); }
+    return ms;
+  }
+  const memoArr = new Map();
+
+  function arrOf(s) {
+    if (!s || !s.t || !/^\d{1,2}:\d{2}$/.test(s.t)) return null;
+    if (s.arr) {
+      const m = String(s.arr).match(/^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2})/);
+      return m ? { t: m[2], plus: dayDiff(s.date, m[1]), est: false } : null;
+    }
+    const key = s.o + s.d + s.date + s.t;
+    if (memoArr.has(key)) return memoArr.get(key);
+    let r = null;
+    try {
+      const out = !!HUBS[s.o], a = APT[out ? s.d : s.o];
+      if (a) {
+        const w = wall(toUtc(s.date, s.t, out ? KST : a[0]) + (out ? a[1] : a[2]) * 6e4, out ? a[0] : KST);
+        r = { t: pad(w[3]) + ':' + pad(w[4]), plus: dayDiff(s.date, `${w[0]}-${pad(w[1])}-${pad(w[2])}`), est: true };
+      }
+    } catch (e) { r = null; }
+    memoArr.set(key, r);
+    return r;
+  }
+
+  function arrHtml(s) {
+    const a = arrOf(s);
+    if (!a) return '';
+    const rt = S.routes.get(s.o + '-' + s.d), where = HUBS[s.d] || cityOf(rt ? rt.p : s.d);
+    const tip = `${where} 도착 ${a.t}${a.plus === 1 ? ' (다음 날)' : a.plus > 1 ? ` (${a.plus}일 뒤)` : a.plus < 0 ? ' (전날)' : ''} · 현지 시각${a.est ? ' · 보통 비행시간으로 계산한 예상' : ''}`;
+    return `<span class="num ar" title="${esc(tip)}">→ ${a.t}${a.plus > 0 ? `<sup>+${a.plus}</sup>` : a.plus < 0 ? `<sup>${a.plus}</sup>` : ''}</span>`;
+  }
+
+  const within = (s, h) => !s.obs || Date.now() - Date.parse(s.obs) < h * 3600e3;
+  const keClosed = s => !!(s.ke && s.ke.st === 'closed');
+  const seatOk = s => S.cabins.has(s.c) && !keClosed(s) && (!S.fresh || S.src !== 'r2' || within(s, S.fresh));
+
+  let RI = null;
+  function retIndex() {
+    const cab = [...S.cabins].sort().join('') + '|' + S.fresh;
+    if (RI && RI.seats === pool() && RI.cab === cab && RI.data === S.data) return RI;
+    const idx = { out: new Map(), in: new Map() };
+    for (const s of pool()) {
+      if (!seatOk(s)) continue;
+      const m = idx[s.dir];
+      let p = m.get(s.p); if (!p) m.set(s.p, p = new Map());
+      let a = p.get(s.date); if (!a) p.set(s.date, a = []);
+      a.push(s);
+    }
+    RI = { seats: pool(), cab, data: S.data, idx, memo: new Map() };
+    return RI;
+  }
+
+  function monthChecked(p, ym, want) {
+    want = want || 'in';
+    if (S.src === 'r2') {
+      const g = (S.data.r2 && S.data.r2.groups) || {};
+      const ok = k => !!(g[k] && g[k].at);
+      return ok('koreanair|' + want + '|' + ym) && ok('skyteam|' + want + '|all') && (!skyOn() || !VIA_ON || ok('skyvia|' + want + '|' + ym));
+    }
+    const scan = (S.data && S.data.scan) || {};
+    const rs = p.routes.filter(r => (want === 'in' ? !HUBS[r.o] && HUBS[r.d] : HUBS[r.o] && !HUBS[r.d]) && r.enabled !== false && r.active !== false);
+    if (!rs.length) return true;
+    return rs.every(r => { const x = scan[r.o + '-' + r.d]; return !!(x && Array.isArray(x.ms) && x.ms.includes(ym)); });
+  }
+
+  function rtInfo(code, date, dir) {
+    dir = dir || 'out';
+    if (skyOn()) return rtSky(code, date, dir);
+    const want = dir === 'out' ? 'in' : 'out';
+    const R = retIndex(), key = dir + '|' + code + '|' + date;
+    if (R.memo.has(key)) return R.memo.get(key);
+    const p = S.places.get(code), byDate = R.idx[want].get(code);
+    const hits = [], unk = [];
+    for (let n = RT[0]; n <= RT[1]; n++) {
+      const k = addDays(date, dir === 'out' ? n : -n), a = byDate && byDate.get(k);
+      if (a) hits.push({ date: k, n, list: a });
+      else if (dir === 'in' && k < S.today) continue;
+      else if (k > S.last || !p || !monthChecked(p, k.slice(0, 7), want)) unk.push(k);
+    }
+    hits.sort((x, y) => x.date.localeCompare(y.date));
+    const r = { hits, unk, state: hits.length ? 'ok' : unk.length ? 'unk' : 'no' };
+    R.memo.set(key, r);
+    return r;
+  }
+  const seatTxt = n => n ? (n >= 9 ? '9석+' : n + '석') : '';
+
+  function rtLine(code, date, dir) {
+    dir = dir || 'out';
+    const r = rtInfo(code, date, dir), other = dir === 'out' ? '오는 편' : '가는 편';
+    if (r.state === 'ok') {
+      return `<div class="rt">${r.hits.map(h => {
+        const m = new Map();
+        for (const s of h.list) { const k = s.o + s.fn + '|' + s.c, x = m.get(k); if (!x || (s.n || 0) > (x.n || 0)) m.set(k, s); }
+        const fl = [...m.values()]
+          .sort((a, b) => (skyOn() ? (a.segs ? 1 : 0) - (b.segs ? 1 : 0) : 0) || (a.t || '').localeCompare(b.t || '') || (a.c === 'O' ? -1 : 1))
+          .map(s => `<span class="rf ${s.c === 'A' ? 'A' : 'O'}${skyOn() ? ' long' : ''}">${skyOn() && isSky(s) ? esc(s.al) + ' ' : ''}<b>${esc(fnTxt(s))}</b> ${esc(s.t || '')}${arrHtml(s)}` +
+            `${s.n ? ` <b>${seatTxt(s.n)}</b>` : ''}${s.segs ? ' ' + esc(viaTxt(s)) : ''}${s.hub === 'GMP' ? ' 김포' : ''}</span>`).join('');
+        return `<div class="rr"><div class="dt">${esc(fmtD(h.date))}<small>${h.n}박</small></div><div class="rfs">${fl}</div></div>`;
+      }).join('')}</div>`;
+    }
+    if (r.state === 'unk') return `<div class="rt-st unk">${other} 아직 확인 전</div>`;
+    return `<div class="rt-st">${other} 없음</div>`;
+  }
+  const isNew = s => s.opened && Date.now() - Date.parse(s.first) < NEW_MS;
+  function placeSort(a, b) { return regionCmp(a, b) || a.sort - b.sort; }
+  function monthsList() {
+    const out = []; let [y, m] = S.today.split('-').map(Number); const [ly, lm] = S.last.split('-').map(Number);
+    while (y < ly || (y === ly && m <= lm)) { out.push(`${y}-${pad(m)}`); m++; if (m > 12) { m = 1; y++; } }
+    return out;
+  }
+
+  async function load(quiet) {
+    if (S.loading) return;
+    S.loading = true; $('reloadBtn').classList.add('spin');
+    try {
+      const cal = await getCal();
+      if (!cal || !cal.ok) throw new Error('자료 형식');
+      ingest(cal);
+      S.loadedAt = Date.now();
+      renderAll();
+    } catch (e) {
+      if (e.link) { lockOut(); return; }
+      console.warn(e);
+      if (!quiet) toast('불러오지 못했어요: ' + (e.message || e), true);
+      if (!S.data) $('summary').innerHTML = '<div class="loading">자료를 불러오지 못했어요. 오른쪽 위 ↻ 로 다시 시도해 주세요.</div>';
+    } finally {
+      S.loading = false; $('reloadBtn').classList.remove('spin');
+    }
+  }
+
+  function renderAll() {
+    renderControls(); renderStatusPill(); renderNotices(); renderSummary();
+    $('viewCal').hidden = S.tab !== 'cal'; $('viewPlaces').hidden = S.tab !== 'places'; $('viewNew').hidden = S.tab !== 'new';
+    if (S.tab === 'cal') { renderMonths(); renderCal(); renderDay(); }
+    if (S.tab === 'places') renderPlaces();
+    if (S.tab === 'new') renderNew();
+    if (S.modal) renderPlaceModal();
+  }
+
+  function renderControls() {
+    document.querySelectorAll('#cabSeg button').forEach(b => b.setAttribute('aria-pressed', String(S.cabins.has(b.dataset.cab))));
+    document.querySelectorAll('#dirSeg button').forEach(b => b.setAttribute('aria-pressed', String(S.dir === b.dataset.dir)));
+    document.querySelectorAll('#tabSeg button').forEach(b => b.setAttribute('aria-pressed', String(S.tab === b.dataset.tab)));
+    $('skySeg').hidden = S.src !== 'r2';
+    document.querySelectorAll('#skySeg button').forEach(b => b.setAttribute('aria-pressed', String(skyOn() === (b.dataset.sky === '1'))));
+    const nNew = filtered({ ignoreRegion: true, rt: false }).filter(isNew).length;
+    $('newBadge').hidden = !nNew; $('newBadge').textContent = nNew > 99 ? '99+' : nNew;
+
+    const per = {};
+    const list = filtered({ ignoreRegion: true });
+    const seen = new Set();
+    for (const s of list) { const p = S.places.get(s.p); if (seen.has(p.code)) continue; seen.add(p.code); per[p.region] = (per[p.region] || 0) + 1; }
+    $('regionChips').innerHTML = REGIONS.map(([k, n]) => {
+      const c = k === 'all' ? seen.size : (per[k] || 0);
+      return `<button type="button" class="chip" data-region="${k}" aria-pressed="${S.region === k}">${esc(n)}<b>${c}</b></button>`;
+    }).join('');
+  }
+
+  function statusInfo() {
+    const t = ((S.data && S.data.r2 && S.data.r2.state) || {}).last_run_at;
+    if (!t) return { cls: '', txt: '확인 시각 모름' };
+    const age = Date.now() - Date.parse(t);
+    return { cls: age > 3 * 3600e3 ? 'bad' : age > 50 * 6e4 ? 'warn' : 'ok', txt: rel(t) + ' 확인' };
+  }
+  function renderStatusPill() {
+    const i = statusInfo();
+    $('statusDot').className = 'dot ' + i.cls; $('statusTxt').textContent = i.txt;
+  }
+  function renderNotices() {
+    $('notices').innerHTML = S.src === 'r2' ? '' : '<div class="notice">지금은 좌석이 <b>있다 · 없다</b>만 보여요. 예약 전 <b>성인 2명</b>으로 다시 확인하세요.</div>';
+  }
+  function renderSummary() {
+    const list = filtered();
+    const places = new Set(list.map(s => s.p)), dates = new Set(list.map(s => s.date));
+    const cabTxt = [...S.cabins].map(c => CAB[c]).join(' · ');
+    const nP = list.filter(s => s.c === 'O').length, nF = list.filter(s => s.c === 'A').length;
+    $('summary').innerHTML =
+      `<span><strong class="num">${places.size}</strong>곳</span>` +
+      `<span><strong class="num">${dates.size}</strong>일</span>` +
+      `<span>${esc(S.dir === 'out' ? '한국 출발' : '한국 도착')} · ${esc(cabTxt)} ${skyOn() ? (VIA_ON ? '· 스카이팀 직항 + 경유' : '· 스카이팀 직항') : S.src === 'r2' ? '· 대한항공 + 스카이팀 직항' : '보너스 좌석'}` +
+      ' · 앞으로 361일' +
+      (S.cabins.size > 1 ? ` · 프레스티지 ${won(nP)}편 · 일등석 ${won(nF)}편` : '') + '</span>';
+  }
+
+  function dayMap(list) {
+    const m = new Map();
+    for (const s of list) {
+      let d = m.get(s.date); if (!d) m.set(s.date, d = new Map());
+      let a = d.get(s.p); if (!a) d.set(s.p, a = []);
+      a.push(s);
+    }
+    return m;
+  }
+  function renderMonths() {
+    const list = filtered(), months = monthsList();
+    const per = {};
+    for (const s of list) { const k = s.date.slice(0, 7); (per[k] = per[k] || new Set()).add(s.date); }
+    $('monthStrip').innerHTML = months.map(k => {
+      const [y, m] = k.split('-').map(Number);
+      const days = new Date(y, m, 0).getDate(), n = per[k] ? per[k].size : 0;
+      return `<button type="button" class="mbtn" data-month="${k}" aria-pressed="${S.month === k}"><span class="y">${y}</span><span class="m">${m}월</span>` +
+        `<span class="c num">${n ? n + '일 가능' : '없음'}</span><span class="meter"><i style="width:${Math.round(n / days * 100)}%"></i></span></button>`;
+    }).join('');
+    const sel = $('monthStrip').querySelector('[aria-pressed="true"]');
+    if (sel && sel.scrollIntoView) { const st = $('monthStrip'); const l = sel.offsetLeft - st.offsetLeft; if (l < st.scrollLeft || l + sel.offsetWidth > st.scrollLeft + st.clientWidth) st.scrollLeft = l - 40; }
+  }
+  function renderCal() {
+    const [y, m] = S.month.split('-').map(Number);
+    $('calTitle').textContent = `${y}년 ${m}월`;
+    const months = monthsList();
+    $('prevM').disabled = S.month <= months[0]; $('nextM').disabled = S.month >= months[months.length - 1];
+    const map = dayMap(filtered());
+    const first = new Date(y, m - 1, 1).getDay(), days = new Date(y, m, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < first; i++) cells.push('<div class="day empty"></div>');
+    for (let d = 1; d <= days; d++) {
+      const k = `${y}-${pad(m)}-${pad(d)}`, dow = (first + d - 1) % 7;
+      const cls = ['day']; if (dow === 0) cls.push('sun'); if (dow === 6) cls.push('sat'); if (k === S.today) cls.push('today');
+      if (k < S.today || k > S.last) { cls.push('off'); cells.push(`<div class="${cls.join(' ')}"><div class="dn"><span>${d}</span></div></div>`); continue; }
+      const pm = map.get(k);
+      if (!pm) { cells.push(`<div class="${cls.join(' ')}"><div class="dn"><span>${d}</span></div></div>`); continue; }
+      const ps = [...pm.keys()].map(c => S.places.get(c)).sort(placeSort);
+      const n = ps.length;
+      cls.push('has', n >= 6 ? 'lv3' : n >= 3 ? 'lv2' : 'lv1');
+      if (S.day === k) cls.push('sel');
+      const anyNew = [...pm.values()].some(a => a.some(isNew));
+      const chips = ps.map(p => {
+        const onlyF = pm.get(p.code).every(s => s.c === 'A');
+        const q = rtInfo(p.code, k, S.dir).state === 'unk';
+        return `<span class="city${onlyF ? ' f' : ''}${q ? ' q' : ''}"${q ? ' title="돌아오는 편 아직 확인 전"' : ''}>${esc(p.city)}</span>`;
+      }).join('');
+      cells.push(`<button type="button" class="${cls.join(' ')}" data-day="${k}" aria-label="${esc(fmtLong(k))} ${n}곳">` +
+        `<div class="dn"><span>${d}</span>${anyNew ? '<span class="nw" title="새로 열림"></span>' : ''}<span class="cnt num">${n}<i>곳</i></span></div>` +
+        `<div class="cities">${chips}</div></button>`);
+    }
+    $('calGrid').innerHTML = cells.join('');
+  }
+  function flightRows(arr, showHub) {
+    const byFn = new Map();
+    for (const s of arr) { const k = s.o + s.fn; if (!byFn.has(k)) byFn.set(k, []); byFn.get(k).push(s); }
+    return [...byFn.values()].sort((a, b) => (a[0].segs ? 1 : 0) - (b[0].segs ? 1 : 0) || (a[0].t || '').localeCompare(b[0].t || '')).map(g => {
+      const s = g[0];
+
+      const cabs = ['O', 'A'].filter(c => g.some(x => x.c === c)).map(c => {
+        const n = Math.max(0, ...g.filter(x => x.c === c).map(x => x.n || 0));
+        return `<span class="tag cab ${c}">${CAB[c]}${n ? ' ' + seatTxt(n) : ''}</span>`;
+      }).join('');
+      const hub = showHub || s.hub === 'GMP' ? `<span class="tag hub">${HUBS[s.hub]}${s.dir === 'out' ? ' 출발' : ' 도착'}</span>` : '';
+      const al = s.al && s.al !== '대한항공' ? `<span class="tag hub">${esc(s.al)}</span>` : '';
+      const via = s.segs ? `<span class="tag hub">${esc(viaTxt(s))}</span><span class="mi num">${esc(durTxt(s.dur))}</span>` : '';
+      const kx = g.find(x => x.ke && x.ke.st === 'open');
+      const keTag = kx ? `<span class="tag ke" title="대한항공 공개 현황에서도 이 편 보너스 좌석이 열려 있어요 · ${esc(hm(kx.ke.at))}">대한항공 ✓</span>` : '';
+      return `<div class="fl"><b class="num fn">${esc(fnTxt(s))}</b><span class="num tm">${esc(s.t || '')}</span>${arrHtml(s)}${cabs}${al}${via}${hub}${g.some(isNew) ? '<span class="tag new">새로 열림</span>' : ''}${keTag}</div>`;
+    }).join('');
+  }
+  function tksNav() {
+    const row = document.querySelector('#dayPanel .tks'), nav = document.querySelector('#dayPanel .tk-nav');
+    if (row && nav) nav.hidden = row.scrollWidth <= row.clientWidth + 4;
+  }
+  function renderDay() {
+    const el = $('dayPanel');
+    const map = dayMap(filtered());
+    if (!S.day || !map.has(S.day)) {
+
+      const keys = [...map.keys()].filter(k => k.startsWith(S.month)).sort();
+      S.day = keys[0] || null;
+    }
+    if (!S.day) {
+      const [yy, mm] = S.month.split('-').map(Number);
+      el.innerHTML = `<h3>${yy}년 ${mm}월</h3><div class="empty-msg">이 달에는 조건에 맞는 보너스 좌석이 아직 없어요.<br>다른 달 · 지역 · 등급을 골라 보세요.</div>`;
+      return;
+    }
+    const pm = map.get(S.day);
+    const RANK = { ok: 0, unk: 1, no: 2 };
+    const ps = [...pm.keys()].map(c => S.places.get(c)).sort((a, b) =>
+      regionCmp(a, b) || RANK[rtInfo(a.code, S.day, S.dir).state] - RANK[rtInfo(b.code, S.day, S.dir).state] || a.sort - b.sort);
+    const nOk = ps.filter(p => rtInfo(p.code, S.day, S.dir).state === 'ok').length;
+    const lg = S.cabins.size > 1 ? '<span class="lg"><span><i></i>프레스티지</span><span><i class="A"></i>일등석</span></span>' : '';
+
+    const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+    el.innerHTML = `<div class="side-h"><div><h3>${esc(fmtLong(S.day))}</h3><div class="sub">${S.dir === 'out' ? '한국 출발' : '한국 도착'} · ${ps.length}곳 · 왕복 ${nOk}곳 · D-${dayDiff(S.today, S.day)}${lg}</div></div>` +
+      `<div class="tk-nav" hidden><button class="icon-btn" type="button" data-tks="-1" aria-label="앞 티켓">${chev('M15 18l-6-6 6-6')}</button><button class="icon-btn" type="button" data-tks="1" aria-label="다음 티켓">${chev('M9 18l6-6-6-6')}</button></div></div>` +
+      '<div class="tks">' + ps.map(p => {
+        const arr = pm.get(p.code), cs = ['O', 'A'].filter(c => arr.some(s => s.c === c)).join('');
+        return `<div class="pc tk"><div class="tk-top ${cs}"><div class="pc-h"><b>${esc(p.city)}</b><span>${esc(p.country)}</span></div>` +
+          flightRows(arr) + '</div><div class="cut"></div>' + rtLine(p.code, S.day, S.dir) + '</div>';
+      }).join('') + '</div>';
+    tksNav();
+  }
+
+  function renderPlaces() {
+    const el = $('viewPlaces');
+    const months = monthsList();
+    const out = filtered({ dir: 'out', rt: false }), inn = filtered({ dir: 'in', rt: skyOn() ? false : null });
+    const stat = new Map();
+    const get = c => { if (!stat.has(c)) stat.set(c, { outD: new Set(), inD: new Set(), rtD: new Set(), months: new Set(), next: null, nextRt: null }); return stat.get(c); };
+    for (const s of out) {
+      const x = get(s.p); x.outD.add(s.date);
+      if (rtInfo(s.p, s.date, 'out').state === 'ok') { x.rtD.add(s.date); if (!x.nextRt || s.date < x.nextRt) x.nextRt = s.date; }
+      if (S.dir === 'out') x.months.add(s.date.slice(0, 7)); if (S.dir === 'out' && (!x.next || s.date < x.next)) x.next = s.date;
+    }
+    for (const s of inn) { const x = get(s.p); x.inD.add(s.date); if (S.dir === 'in') x.months.add(s.date.slice(0, 7)); if (S.dir === 'in' && (!x.next || s.date < x.next)) x.next = s.date; }
+    const html = [];
+    for (const [rk, rn] of REGIONS) {
+      if (rk === 'all' || (S.region !== 'all' && S.region !== rk)) continue;
+      const ps = [...S.places.values()].filter(p => p.region === rk && matchQ(p)).sort((a, b) => a.sort - b.sort);
+      if (!ps.length) continue;
+      if (skyOn() && !ps.some(p => { const x = stat.get(p.code); return x && (S.dir === 'out' ? x.outD.size : x.inD.size); })) continue;
+      const withSeats = ps.filter(p => { const x = stat.get(p.code); return x && (S.dir === 'out' ? x.outD.size : x.inD.size); });
+      const without = ps.filter(p => !withSeats.includes(p));
+      html.push(`<div class="rgn"><h3>${esc(rn)} <small>${withSeats.length}곳 가능</small></h3>`);
+      if (withSeats.length) {
+        html.push('<div class="cards">' + withSeats.map(p => {
+          const x = stat.get(p.code), mine = S.dir === 'out' ? x.outD : x.inD, other = S.dir === 'out' ? x.inD : x.outD;
+          const sp = months.map(k => `<i class="${x.months.has(k) ? 'on' : ''}" style="height:${x.months.has(k) ? 100 : 18}%" title="${k}"></i>`).join('');
+          return `<button type="button" class="card" data-place="${p.code}"><div class="nm">${esc(p.city)}<small>${esc(p.country)}</small></div>` +
+            `<div class="row"><span>${S.dir === 'out' ? '가는 편' : '오는 편'}</span><b class="num">${mine.size}일</b></div>` +
+            `<div class="row"><span>${S.dir === 'out' ? '오는 편' : '가는 편'}</span><b class="num">${other.size}일</b></div>` +
+            `<div class="row"><span>왕복 (${RT[0]}~${RT[1]}일 뒤 귀국)</span><b class="num">${x.rtD.size}일</b></div>` +
+            (true
+              ? `<div class="row"><span>가장 빠른 왕복</span><b>${x.nextRt ? esc(fmtD(x.nextRt)) : '—'}</b></div>`
+              : `<div class="row"><span>가장 빠른 날</span><b>${x.next ? esc(fmtD(x.next)) : '—'}</b></div>`) +
+            `<div class="spark" aria-hidden="true">${sp}</div></button>`;
+        }).join('') + '</div>');
+      }
+      if (without.length && !skyOn()) {
+        const scan = (S.data && S.data.scan) || {};
+        const names = without.map(p => {
+          if (S.src === 'r2') return esc(p.city);
+          const rs = p.routes.filter(r => (S.dir === 'out') === !!HUBS[r.o]);
+          const dead = rs.length && rs.every(r => !r.active);
+          const seen = rs.some(r => scan[r.o + '-' + r.d]);
+          return esc(p.city) + (dead ? ' (운항 없음)' : seen ? '' : ' (확인 전)');
+        });
+        html.push(`<div class="none-line">지금 없음 · ${names.join(', ')}</div>`);
+      }
+      html.push('</div>');
+    }
+    el.innerHTML = html.join('') || '<div class="panel empty-msg">찾는 곳이 없어요.</div>';
+  }
+
+  function renderNew() {
+    const el = $('viewNew');
+    const list = filtered({ ignoreRegion: false }).filter(isNew).sort((a, b) => b.first.localeCompare(a.first) || a.date.localeCompare(b.date));
+    if (!list.length) {
+      el.innerHTML = '<div class="empty-msg">최근 3일 사이 새로 열린 보너스 좌석이 없어요.<br>처음 한 바퀴를 도는 동안은 비교할 이전 값이 없어 여기 안 나와요.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="list">' + list.slice(0, 300).map(s => {
+      const p = S.places.get(s.p);
+      return `<div class="li"><div class="d num">${esc(fmtD(s.date))}</div>` +
+        `<div><b>${esc(p.city)}</b> <span style="color:var(--t3)">${esc(p.country)}</span><div class="fl" style="margin-top:2px"><b class="num">${esc(fnTxt(s))}</b><span class="num">${esc(s.t)}</span><span class="tag ${s.c}">${CAB[s.c]}</span>${s.segs ? `<span class="tag hub">${esc(viaTxt(s))}</span>` : ''}${s.hub === 'GMP' ? '<span class="tag hub">김포</span>' : ''}<button class="link" type="button" data-place="${p.code}" data-pick="${s.dir === 'out' ? s.date : ''}">1년 보기</button></div></div>` +
+        `<div class="w">${esc(rel(s.first))} 열림</div></div>`;
+    }).join('') + '</div>';
+  }
+
+  function openPlace(code, pick) {
+    S.modal = { place: code, pickOut: pick || null, sel: null };
+    $('placeModal').hidden = false; document.body.style.overflow = 'hidden';
+    renderPlaceModal();
+  }
+  function closeModal(id) {
+    $(id).hidden = true;
+    if (id === 'placeModal') S.modal = null;
+    if ($('placeModal').hidden && $('statusModal').hidden) document.body.style.overflow = '';
+  }
+  function heat(dir, p) {
+    const list = pool().filter(s => s.p === p.code && s.dir === dir && seatOk(s) && (!skyOn() || skyShow(s, false)));
+    const by = new Map();
+    for (const s of list) { const v = by.get(s.date) || ''; if (!v.includes(s.c)) by.set(s.date, (v + s.c).split('').sort((a, b) => (a === 'O' ? -1 : 1)).join('')); }
+    const months = monthsList(), md = S.modal;
+    let h = '<div class="hm"><div></div>';
+    for (let d = 1; d <= 31; d++) h += `<div class="dh">${d % 5 === 0 || d === 1 ? d : ''}</div>`;
+    for (const k of months) {
+      const [y, m] = k.split('-').map(Number), days = new Date(y, m, 0).getDate();
+      h += `<div class="ml">${m === 1 || k === months[0] ? `<small class="yy">’${String(y).slice(2)}</small>` : ''}${m}월</div>`;
+      for (let d = 1; d <= 31; d++) {
+        if (d > days) { h += '<button type="button" class="x" tabindex="-1" aria-hidden="true"></button>'; continue; }
+        const key = `${k}-${pad(d)}`;
+        if (key < S.today || key > S.last) { h += '<button type="button" class="off" tabindex="-1" aria-hidden="true"></button>'; continue; }
+        const v = by.get(key) || '';
+        const cls = [v];
+        if (dir === 'out' && md.pickOut === key) cls.push('pick');
+        if (dir === 'in' && md.pickOut) {
+          if (key <= md.pickOut) cls.push('dim');
+          else if (v) { cls.push('ret'); const n = dayDiff(md.pickOut, key); if (n >= RT[0] && n <= RT[1]) cls.push('w'); }
+        }
+        if (md.sel && md.sel.dir === dir && md.sel.date === key) cls.push('on-sel');
+        h += `<button type="button" class="${cls.join(' ')}" data-hm="${dir}" data-date="${key}" title="${esc(fmtD(key))}${v ? ' · ' + v.split('').map(c => CAB[c]).join(' · ') : ''}"${v ? '' : ' tabindex="-1"'}></button>`;
+      }
+    }
+    return { html: h + '</div>', by, n: by.size };
+  }
+  function renderPlaceModal() {
+    const md = S.modal, p = S.places.get(md.place);
+    if (!p) return;
+    const outH = heat('out', p), inH = heat('in', p);
+    const hubsOut = [...new Set(p.routes.filter(r => HUBS[r.o]).map(r => HUBS[r.o]))].join(' · ');
+    let pickBox = '';
+    if (md.pickOut) {
+      const rets = [...inH.by.keys()].filter(k => k > md.pickOut).sort().slice(0, 24);
+      const inWin = k => { const n = dayDiff(md.pickOut, k); return n >= RT[0] && n <= RT[1]; };
+      const r = rtInfo(p.code, md.pickOut);
+      const winTxt = r.state === 'ok' ? `<b>${r.hits.length}일 있음</b>` : r.state === 'unk' ? '<b>아직 확인 전</b>' : '<b>없음</b>';
+      pickBox = `<div class="pick-box">가는 날 <b>${esc(fmtD(md.pickOut))}</b> 고름 → ${RT[0]}~${RT[1]}일 뒤 돌아오는 편 ${winTxt} · 그 뒤 오는 편 가능한 날 ${rets.length ? '' : '<b>없음</b>'}` +
+        (rets.length ? `<div class="rets">${rets.map(k => `<span${inWin(k) ? ' class="w"' : ''}>${esc(fmtD(k))} · ${dayDiff(md.pickOut, k)}박</span>`).join('')}</div>` : '') +
+        ` <button class="link" type="button" data-clear-pick style="margin-left:6px">고른 날 지우기</button></div>`;
+    } else {
+      pickBox = '<div class="pick-box">아래 <b>가는 편</b>에서 날짜를 누르면, 그 뒤 <b>오는 편</b> 가능한 날이 테두리로 표시돼요.</div>';
+    }
+    let selBox = '';
+    if (md.sel) {
+      const arr = pool().filter(s => s.p === p.code && s.dir === md.sel.dir && s.date === md.sel.date && seatOk(s) && (!skyOn() || skyShow(s, false)));
+      selBox = `<div class="pc" style="margin:-4px 0 14px"><div class="pc-h"><b>${esc(fmtLong(md.sel.date))}</b><span>${md.sel.dir === 'out' ? '가는 편' : '오는 편'}</span></div>${arr.length ? flightRows(arr, true) : '<div class="fl" style="color:var(--t3)">이날은 보너스 좌석 없음</div>'}</div>`;
+    }
+    $('placeSheet').innerHTML =
+      `<div class="sheet-h"><div><h2>${esc(p.city)} <span style="color:var(--t3);font-weight:600;font-size:15px">${esc(p.country)} · ${esc(p.code)}</span></h2>` +
+      `<div class="sub">${esc(hubsOut || '인천')} 출발</div></div>` +
+      `<button class="x-btn" type="button" data-close="placeModal" aria-label="닫기">×</button></div>` +
+      `<div class="legend">${S.cabins.has('O') ? '<span><i style="background:var(--p)"></i>프레스티지</span>' : ''}${S.cabins.has('A') ? '<span><i style="background:var(--f)"></i>일등석</span>' : ''}${S.cabins.size > 1 ? '<span><i style="background:linear-gradient(135deg,var(--p) 50%,var(--f) 50%)"></i>둘 다</span>' : ''}<span><i style="background:#eef1f5"></i>없음</span></div>` +
+      pickBox + selBox +
+      `<div class="yr"><h4>가는 편 · 한국 → ${esc(p.city)} <small>${outH.n}일</small></h4>${outH.html}</div>` +
+      `<div class="yr"><h4>오는 편 · ${esc(p.city)} → 한국 <small>${inH.n}일</small></h4>${inH.html}</div>` +
+      `<div style="font-size:12px;color:var(--t3)">공개 현황 기준이에요. 예약 전 대한항공 앱 · 홈페이지 마일리지 항공권 예약에서 다시 확인하세요.</div>`;
+  }
+
+  $('cabSeg').addEventListener('click', e => {
+    const b = e.target.closest('button[data-cab]'); if (!b) return;
+    const c = b.dataset.cab;
+    if (S.cabins.has(c)) { if (S.cabins.size > 1) S.cabins.delete(c); } else S.cabins.add(c);
+    lsSet(LS.cab, [...S.cabins].join('')); renderAll();
+  });
+  $('dirSeg').addEventListener('click', e => { const b = e.target.closest('button[data-dir]'); if (!b) return; S.dir = b.dataset.dir; S.day = null; lsSet(LS.dir, S.dir); renderAll(); });
+  $('skySeg').addEventListener('click', e => {
+    const b = e.target.closest('button[data-sky]'); if (!b) return;
+    S.sky = b.dataset.sky === '1'; S.day = null;
+    if (skyOn()) {
+      if (!filtered().length) S.region = 'all';
+      const ms = filtered().map(s => s.date.slice(0, 7)).sort();
+      if (ms.length && !ms.includes(S.month)) S.month = ms.find(k => k >= S.month) || ms[0];
+    }
+    renderAll();
+  });
+  $('tabSeg').addEventListener('click', e => { const b = e.target.closest('button[data-tab]'); if (!b) return; S.tab = b.dataset.tab; lsSet(LS.tab, S.tab); renderAll(); });
+  $('regionChips').addEventListener('click', e => { const b = e.target.closest('button[data-region]'); if (!b) return; S.region = b.dataset.region; S.day = null; lsSet(LS.region, S.region); renderAll(); });
+  $('monthStrip').addEventListener('click', e => { const b = e.target.closest('button[data-month]'); if (!b) return; S.month = b.dataset.month; S.day = null; renderAll(); });
+  function shiftMonth(n) {
+    const ms = monthsList(), i = ms.indexOf(S.month) + n;
+    if (i < 0 || i >= ms.length) return; S.month = ms[i]; S.day = null; renderAll();
+  }
+  $('prevM').addEventListener('click', () => shiftMonth(-1));
+  $('nextM').addEventListener('click', () => shiftMonth(1));
+  $('calGrid').addEventListener('click', e => {
+    const b = e.target.closest('button[data-day]'); if (!b) return;
+    S.day = b.dataset.day; renderCal(); renderDay();
+
+    $('dayPanel').scrollIntoView({ behavior: 'smooth', block: window.matchMedia('(max-width: 920px)').matches ? 'start' : 'nearest' });
+  });
+  $('dayPanel').addEventListener('click', e => {
+    const b = e.target.closest('button[data-tks]'); if (!b) return;
+    const row = $('dayPanel').querySelector('.tks'); if (!row) return;
+    const card = row.querySelector('.tk'), step = card ? card.offsetWidth + 10 : row.clientWidth * .8;
+    row.scrollBy({ left: Number(b.dataset.tks) * Math.max(step, Math.floor(row.clientWidth / step) * step), behavior: 'smooth' });
+  });
+  window.addEventListener('resize', tksNav);
+  document.addEventListener('click', e => {
+    const pl = e.target.closest('[data-place]');
+    if (pl && !e.target.closest('#placeSheet')) { openPlace(pl.dataset.place, pl.dataset.pick || null); return; }
+    const cl = e.target.closest('[data-close]'); if (cl) { closeModal(cl.dataset.close); return; }
+    if (e.target.closest('[data-clear-pick]')) { S.modal.pickOut = null; renderPlaceModal(); return; }
+    const hmB = e.target.closest('button[data-hm]');
+    if (hmB && S.modal) {
+      const dir = hmB.dataset.hm, date = hmB.dataset.date;
+      const hasSeat = hmB.classList.contains('O') || hmB.classList.contains('A') || hmB.classList.contains('OA');
+      if (dir === 'out' && hasSeat) S.modal.pickOut = S.modal.pickOut === date ? null : date;
+      S.modal.sel = { dir, date };
+      renderPlaceModal(); return;
+    }
+    if (e.target.classList && e.target.classList.contains('modal')) closeModal(e.target.id);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (!$('placeModal').hidden) closeModal('placeModal');
+  });
+  $('reloadBtn').addEventListener('click', () => load(false));
+
+  setInterval(() => { if (!document.hidden) load(true); }, 10 * 6e4);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && S.data && Date.now() - (S.loadedAt || 0) > 5 * 6e4) load(true); });
+
+  $('summary').innerHTML = '<div class="loading">불러오는 중…</div>';
+  load(false);
+})();
+</script>
+</body>
+</html>

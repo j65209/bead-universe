@@ -23,6 +23,7 @@
 | `/insta/` | 릴스 메이커 | `j65209/brightbeed-insta` (`data-app`) |
 | `/coferry/` | 코페리 디자인센터 | `j65209/coferry` (`data-app`) |
 | `/brightbeed/` | 브라이트비드 공구 → **brightbeed.kr 로 넘겨 줌** (고객용 브랜드 주소가 본 주소) | `j65209/brightbeed-catalog` |
+| `/miles/` | 마일리지 항공권 **친구 전용 보기** (PIN 없음, 링크 `#k=` 글자를 서버 함수 `mile-share` 가 확인 · 끊기 = Supabase `mile_share_links.active` false) | 이 레포 `miles/index.html` — 본체를 고치면 `node scripts/build-miles.mjs <mileage/index.html>` 다시 |
 | `/stock/` | 재고 시스템 → **brightbeed-stock.vercel.app 으로 넘겨 줌** (Next.js 앱이라 입구로 못 띄움) | `j65209/brightbeed-stock` |
 
 - 새 화면 입구 = `office/<폴더>/index.html` 복사 후 `<title>` · `data-page` 만 바꿈. 오피스 밖 사이트는 `data-app="https://j65209.github.io/<레포>/"` 추가.
