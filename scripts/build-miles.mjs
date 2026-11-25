@@ -70,6 +70,7 @@ between('  function renderNotices()', '  function renderSummary()', `  function 
 between('  /* ── 수집 상태 · 수집기 승인', '  /* ── 이벤트', '', 'status modal');
 sub(/    if \(e\.target\.closest\('\[data-open-status\]'\)\)[^\n]*\n[^\n]*data-approve[^\n]*\n[^\n]*data-revoke[^\n]*\n/, '', 'status clicks');
 sub("if (!$('statusModal').hidden) closeModal('statusModal'); else if (!$('placeModal').hidden)", "if (!$('placeModal').hidden)", 'esc');
+sub("if ($('placeModal').hidden && $('statusModal').hidden)", "if ($('placeModal').hidden)", 'closeModal');
 sub("  $('statusBtn').addEventListener('click', openStatus);\n", '', 'statusBtn');
 
 // 주석(내부 말) 걷기 — 문자열 · 템플릿 · 정규식 안은 건드리지 않는다
@@ -101,7 +102,7 @@ h = h.replace(/(<style>)([\s\S]*?)(<\/style>)/g, (_, a, b, c) => a + b.replace(/
 h = h.replace(/(<script>)([\s\S]*?)(<\/script>)/g, (_, a, b, c) => { const j = stripJs(b); new vm.Script(j); return a + j + c; });
 h = h.replace(/<!--[\s\S]*?-->/g, '');
 
-for (const w of ['전승훈', '전수빈', '사장님', '대표', '오피스', '관리자', '맥미니', '로마일', 'roamile', '수집', 'eyJ', 'SB_KEY', 'rpc(', 'boss', 'brightbeed', 'PIN', 'S.status', 'r2Info', 'R2_GROUPS,'])
+for (const w of ['전승훈', '전수빈', '사장님', '대표', '오피스', '관리자', '맥미니', '로마일', 'roamile', '수집', 'eyJ', 'SB_KEY', 'rpc(', 'boss', 'brightbeed', 'PIN', 'S.status', 'statusModal', 'statusBtn', 'openStatus', 'setCollector', 'r2Info', 'R2_GROUPS,'])
   if (h.includes(w)) { const i = h.indexOf(w); throw new Error('내부 말이 남음: ' + w + ' → ' + h.slice(Math.max(0, i - 60), i + 60)); }
 
 const out = path.join(path.dirname(new URL(import.meta.url).pathname), '../miles/index.html');

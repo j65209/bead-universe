@@ -952,7 +952,7 @@
   function closeModal(id) {
     $(id).hidden = true;
     if (id === 'placeModal') S.modal = null;
-    if ($('placeModal').hidden && $('statusModal').hidden) document.body.style.overflow = '';
+    if ($('placeModal').hidden) document.body.style.overflow = '';
   }
   function heat(dir, p) {
     const list = pool().filter(s => s.p === p.code && s.dir === dir && seatOk(s) && (!skyOn() || skyShow(s, false)));
