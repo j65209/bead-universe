@@ -18,7 +18,7 @@
 |---|---|---|
 | `beaduniverse.kr` | 회사 소개 (공홈) | 이 레포 `index.html` |
 | `/office/` | 오피스앱 | `j65209/beaduniverse` |
-| `/office/erp/` · `/office/mdsheet/` · `/office/voc/` · `/office/seeding/` · `/office/feed/` · `/office/meeting/` · `/office/weekly/` · `/office/studio/` · `/office/mailer/` · `/office/models/` · `/office/mileage/` · `/office/sns/` | 오피스 화면 하나씩 (ERP전산팀 · MD팀 시트 · VOC · 시딩 마스터 · 피드 시뮬레이터 · 마케팅 회의록 · 주간 회의록 · 광고 스튜디오 · 메일 발송 · 모델 지원자 · 마일리지 · 꿀꿀집) | `j65209/beaduniverse` 의 같은 폴더 |
+| `/office/erp/` · `/office/mdsheet/` · `/office/voc/` · `/office/seeding/` · `/office/feed/` · `/office/adlib/` · `/office/meeting/` · `/office/weekly/` · `/office/studio/` · `/office/mailer/` · `/office/models/` · `/office/mileage/` · `/office/sns/` | 오피스 화면 하나씩 (ERP전산팀 · MD팀 시트 · VOC · 시딩 마스터 · 피드 시뮬레이터 · 주얼리 광고 라이브러리 · 마케팅 회의록 · 주간 회의록 · 광고 스튜디오 · 메일 발송 · 모델 지원자 · 마일리지 · 꿀꿀집) | `j65209/beaduniverse` 의 같은 폴더 |
 | `/office/ad/` · `/office/agents.html` · `/office/meta-ads/report.html` | 오피스 소개 · 에이전트 오피스 · 광고 리포트 | 이 레포 · `j65209/beaduniverse` |
 | `/insta/` | 릴스 메이커 | `j65209/brightbeed-insta` (`data-app`) |
 | `/coferry/` | 코페리 디자인센터 | `j65209/coferry` (`data-app`) |
