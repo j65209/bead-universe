@@ -20,7 +20,7 @@
 |---|---|---|
 | `beaduniverse.kr` | 회사 소개 (공홈) | 이 레포 `index.html` |
 | `/office/` | 오피스앱 | `j65209/beaduniverse` |
-| `/office/erp/` · `/office/mdsheet/` · `/office/voc/` · `/office/seeding/` · `/office/feed/` · `/office/adlib/` · `/office/review/` · `/office/store/` · `/office/meeting/` · `/office/weekly/` · `/office/studio/` · `/office/mailer/` · `/office/models/` · `/office/mileage/` · `/office/trip/` · `/office/sns/` | 오피스 화면 하나씩 (ERP전산팀 · MD팀 시트 · VOC · 시딩 마스터 · 피드 시뮬레이터 · 주얼리 광고 라이브러리 · 1점 리뷰 관리 · 직원 할인 스토어 · 마케팅 회의록 · 주간 회의록 · 광고 스튜디오 · 메일 발송 · 모델 지원자 · 마일리지 · 여행 자료 · 꿀꿀집) | `j65209/beaduniverse` 의 같은 폴더 |
+| `/office/erp/` · `/office/mdsheet/` · `/office/voc/` · `/office/seeding/` · `/office/feed/` · `/office/adlib/` · `/office/review/` · `/office/store/` · `/office/meeting/` · `/office/weekly/` · `/office/studio/` · `/office/mailer/` · `/office/models/` · `/office/mileage/` · `/office/trip/` · `/office/sns/` | 오피스 화면 하나씩 (ERP전산팀 · MD팀 시트 · VOC · 시딩 마스터 · 피드 시뮬레이터 · 주얼리 광고 라이브러리 · 1점 리뷰 관리 · 직원 할인 스토어 · 마케팅 회의록 · 주간 회의록 · 광고 스튜디오 · 메일 발송 · 모델 지원자 · 마일리지 · 크리스마스 여행 · 꿀꿀집) | `j65209/beaduniverse` 의 같은 폴더 |
 | `/office/ad/` · `/office/agents.html` · `/office/meta-ads/report.html` | 오피스 소개 · 에이전트 오피스 · 광고 리포트 | 이 레포 · `j65209/beaduniverse` |
 | `/insta/` | 릴스 메이커 | `j65209/brightbeed-insta` (`data-app`) |
 | `/coferry/` | 코페리 디자인센터 | `j65209/coferry` (`data-app`) |
@@ -30,5 +30,5 @@
 
 - 새 화면 입구 = `office/<폴더>/index.html` 복사 후 `<title>` · `data-page` 만 바꿈. 오피스 밖 사이트는 `data-app="https://j65209.github.io/<레포>/"` 추가.
 - 브라우저 저장값(잠금 · 작업 중인 내용)은 주소(출처)마다 따로다. `beaduniverse.kr` 아래끼리는 같이 쓰고, 원래 주소에서 쓰던 저장값은 그쪽에 남는다 — 새 주소에선 접속 코드를 한 번 넣는다.
-- MD팀 시트는 오피스(같은 주소)에서 MD팀을 한 번 열어 열쇠를 받아야 혼자 열린다 (원래 주소와 같음). 마일리지 · 여행 자료 · 꿀꿀집은 관리자만.
+- MD팀 시트는 오피스(같은 주소)에서 MD팀을 한 번 열어 열쇠를 받아야 혼자 열린다 (원래 주소와 같음). 마일리지 · 크리스마스 여행 · 꿀꿀집은 관리자만.
 - 패스파인더 FC(풋살, 개인)는 넣지 않음.
