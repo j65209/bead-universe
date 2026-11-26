@@ -4,7 +4,7 @@
    2) 보기 전용 고정: 잠금 해제 · 보기 권한 · 방문자 이름은 늘 같은 값 (관리자 · 대표 화면은 안 열림)
    3) 저장 막기: 읽기 말고 서버로 가는 요청은 전부 보내지 않는다 + 입력칸 잠금
    4) 가림: 매출 · 금액 · 단가 숫자, 고객 이름 · 대화 · 전화번호 · 메일, 직원 이름
-   5) 맨 위 남은 시간 (24시간이 지나면 PIN 이 끊기고 화면이 닫힌다) */
+   5) 맨 위 남은 시간 (24시간이 지나면 화면이 닫힌다 — PIN 없음(11-26), 기한은 Supabase office_demo 표) */
 (function () {
   'use strict';
   if (window.__bbDemo) return;
@@ -58,7 +58,7 @@
   var READ_RPC = {};
   ('dlog_boot dlog_find dlog_get dlog_links dlog_page_json dlog_poll dlog_src dlog_txt dlog_versions erp_calc_stock erp_num erp_poll ' +
    'mdx_meta mdx_poll mdx_read_ok mdx_rows_get mdx_tab_refs mkt_meeting_has mkt_meeting_missing po_catalog_src po_md_links po_md_panel ' +
-   'tool_news_open office_watch_dur office_watch_hm office_demo_check').split(' ').forEach(function (n) { READ_RPC[n] = 1; });
+   'tool_news_open office_watch_dur office_watch_hm office_demo_check office_demo_open').split(' ').forEach(function (n) { READ_RPC[n] = 1; });
 
   function allowed(method, url) {
     method = (method || 'GET').toUpperCase();
@@ -90,9 +90,21 @@
     } catch (e) { return h; }
   }
   // 앱 쪽 html 을 받아 다른 창에 쓰는 경우(도구 창) — 그 화면에도 이 파일을 맨 앞에 넣는다
-  var SELF = '<script src="' + DEMO + 'demo.js?v=2"><\/script>';
+  var SELF = '<script src="' + DEMO + 'demo.js?v=4"><\/script>';
   function isAppHtml(u) { return u.indexOf(APP) === 0 && /(\.html?|\/)(\?|#|$)/.test(u); }
 
+  // 체험판에서 막아 둔 화면 (재고 ERP) — 빈 화면 대신 '접근이 막혀 있어요'
+  var BLOCK_PAGE = /^erp\//;
+  function blockedHtml() {
+    return '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>' +
+      'html,body{height:100%;margin:0;background:#fefcf5;color:#111;font:15px/1.6 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}' +
+      'body{display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;text-align:center}' +
+      '.ic{width:56px;height:56px;border-radius:16px;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}' +
+      'h1{font-size:20px;margin:0 0 6px;letter-spacing:-.02em}p{margin:0;color:#86868b;font-size:14px}</style></head><body><div>' +
+      '<div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>' +
+      '<h1>접근이 막혀 있어요</h1><p>재고 ERP 는 체험판에서 볼 수 없어요</p>' +
+      '<button onclick="try{parent.location.hash=\'\';parent.history.replaceState(null,\'\',parent.location.pathname+parent.location.search)}catch(e){}" style="margin-top:20px;border:1px solid #e5e3dc;background:#fff;border-radius:999px;padding:9px 18px;font:600 14px inherit;cursor:pointer">← 홈으로</button></div></body></html>';
+  }
   var oFetch = W.fetch;
   W.fetch = function (input, init) {
     init = init || {};
@@ -106,6 +118,9 @@
     if (init.headers) init = Object.assign({}, init, { headers: fixHeaders(init.headers) });
     else if (input && typeof input !== 'string' && input.headers && input.headers.has && input.headers.has('X-Brightbeed-PIN')) {
       input = new Request(input, { headers: fixHeaders(new Headers(input.headers)) });
+    }
+    if (isAppHtml(url) && BLOCK_PAGE.test(url.slice(APP.length))) {
+      return Promise.resolve(new Response(blockedHtml(), { status: 200, headers: { 'content-type': 'text/html; charset=utf-8' } }));
     }
     var p = oFetch.call(W, input, init);
     if (!isAppHtml(url)) return p;
@@ -143,6 +158,17 @@
   }
   var oOpen = W.open;
   W.open = function (u, n, f) { if (u) u = toDemo(String(u)); return oOpen.call(W, u, n, f); };
+  // 재고 ERP 버튼(원래는 새 탭) → 오피스 안 화면(#erp)으로, 그 화면엔 '접근이 막혀 있어요'
+  function erpBlock() { location.hash = '#erp'; }
+  if (TOP) {
+    D.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest && e.target.closest('#erpBtn,[onclick*="openErpPage"]');
+      if (!b) return;
+      e.preventDefault(); e.stopImmediatePropagation(); erpBlock();
+    }, true);
+    var setErp = function () { try { W.openErpPage = erpBlock; } catch (e) { } };
+    D.addEventListener('DOMContentLoaded', setErp); W.addEventListener('load', setErp);
+  }
 
   // ---------- 4) 가림 ----------
   var CSS =
@@ -371,12 +397,12 @@
 
   // ---------- 5) 남은 시간 · 24시간 뒤 닫기 ----------
   function expEnd() {
-    try { oDel.call(ls, PFX + '__pin'); oDel.call(ls, PFX + '__exp'); } catch (e) { }
+    try { oDel.call(ls, PFX + '__exp'); } catch (e) { }
     location.replace(DEMO + '?expired=1');
   }
   function timerBar() {
-    var exp = +new Date(oGet.call(ls, PFX + '__exp') || 0), pin = oGet.call(ls, PFX + '__pin');
-    if (!exp || !pin || exp <= Date.now()) return expEnd();
+    var exp = +new Date(oGet.call(ls, PFX + '__exp') || 0);
+    if (!exp || exp <= Date.now()) return expEnd();
     var st = D.createElement('style');
     st.textContent =
       '#bbDemoBar{position:fixed;top:0;left:0;right:0;height:34px;z-index:2147483646;display:flex;align-items:center;justify-content:center;gap:10px;' +
@@ -403,9 +429,9 @@
     tick(); setInterval(tick, 1000);
     // 서버 쪽 기한도 다시 확인 (기한을 줄이거나 끊으면 켜 둔 화면도 닫힘)
     function recheck() {
-      oFetch.call(W, SB + '/rest/v1/rpc/office_demo_check', {
+      oFetch.call(W, SB + '/rest/v1/rpc/office_demo_open', {
         method: 'POST', headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'content-type': 'application/json' },
-        body: JSON.stringify({ p_pin: pin })
+        body: '{}'
       }).then(function (r) { return r.ok ? r.json() : undefined; }).then(function (v) {
         if (v === undefined) return;          // 인터넷 끊김 등은 그냥 둠
         if (!v) return expEnd();

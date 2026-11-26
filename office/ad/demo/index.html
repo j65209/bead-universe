@@ -22,9 +22,6 @@ body{display:flex;align-items:center;justify-content:center;padding:16px}
 .sym{width:72px;height:72px;margin:0 auto 18px;display:block}
 h1{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
 .lead{color:var(--sub);font-size:14px;margin:0 0 26px}
-.pin{display:flex;gap:10px;justify-content:center;margin-bottom:14px}
-.pin input{width:54px;height:62px;border:1.5px solid var(--line);border-radius:14px;background:#fff;text-align:center;font:700 24px/1 inherit;color:var(--ink);outline:none;-webkit-text-security:disc}
-.pin input:focus{border-color:var(--ink)}
 .msg{min-height:22px;font-size:13px;color:var(--sub)}
 .msg.err{color:var(--warn)}
 .rules{margin:26px 0 0;padding:16px 18px;border-top:1px solid var(--line);text-align:left;color:var(--sub);font-size:13px;list-style:none}
@@ -38,18 +35,7 @@ h1{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
   <img class="sym" src="/symbol.svg" alt="" onerror="this.style.display='none'">
   <h1>오피스 체험판</h1>
   <p class="lead">비드유니버스가 매일 쓰는 사내 전산을 직접 눌러 보세요</p>
-  <form class="pin" id="pinForm" autocomplete="off">
-    <input inputmode="numeric" maxlength="1" aria-label="PIN 1">
-    <input inputmode="numeric" maxlength="1" aria-label="PIN 2">
-    <input inputmode="numeric" maxlength="1" aria-label="PIN 3">
-    <input inputmode="numeric" maxlength="1" aria-label="PIN 4">
-  </form>
-  <div class="msg" id="msg">받으신 PIN 4자리를 넣어 주세요</div>
-  <ul class="rules">
-    <li>PIN 은 발급 뒤 24시간 동안만 쓸 수 있어요</li>
-    <li>보기 전용 — 저장 · 수정은 되지 않아요</li>
-    <li>매출 · 금액 · 단가와 고객 정보는 가려져 있어요</li>
-  </ul>
+  <div class="msg" id="msg">여는 중…</div>
 </div>
 <script>
 (function () {
@@ -64,22 +50,21 @@ h1{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
   function set(k, v) { try { localStorage.setItem(PFX + k, v); } catch (e) { } }
   function del(k) { try { localStorage.removeItem(PFX + k); } catch (e) { } }
 
-  function check(pin) {
-    return fetch(SB + '/rest/v1/rpc/office_demo_check', {
-      method: 'POST', headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'content-type': 'application/json' },
-      body: JSON.stringify({ p_pin: pin })
+  function open() {
+    return fetch(SB + '/rest/v1/rpc/office_demo_open', {
+      method: 'POST', headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'content-type': 'application/json' }, body: '{}'
     }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
   }
 
   function ended() {
     document.getElementById('gate').innerHTML =
       '<img class="sym" src="/symbol.svg" alt="" onerror="this.style.display=\'none\'">' +
-      '<div class="end"><h1>체험 시간이 끝났어요</h1><p class="lead">PIN 은 24시간 동안만 열려요.<br>다시 보고 싶으시면 담당자에게 새 PIN 을 받아 주세요.</p></div>';
+      '<div class="end"><h1>체험 시간이 끝났어요</h1><p class="lead">체험판은 24시간 동안만 열려요.<br>다시 보고 싶으시면 담당자에게 말씀해 주세요.</p></div>';
   }
 
   function boot() {
     var page = qs.get('p') || 'index.html';
-    if (!/^[A-Za-z0-9_\-\/.]+\.html$/.test(page) || page.indexOf('..') >= 0) page = 'index.html';
+    if (!/^[A-Za-z0-9_\-\/.]+\.html$/.test(page) || page.indexOf('..') >= 0 || /^erp\//.test(page)) page = 'index.html';   // 재고 ERP 는 체험판에서 막음
     var base = APP + page.replace(/[^/]*$/, '');
     msg.className = 'msg'; msg.textContent = '여는 중…';
     var guard = '<script>' +
@@ -91,7 +76,7 @@ h1{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
     }).then(function (html) {
       html = html
         .replace(/<head[^>]*>/i, function (m) {
-          return m + '<script src="' + DEMO + 'demo.js?v=2"><\/script><base href="' + base + '"><meta name="robots" content="noindex,nofollow">' + guard;
+          return m + '<script src="' + DEMO + 'demo.js?v=4"><\/script><base href="' + base + '"><meta name="robots" content="noindex,nofollow">' + guard;
         })
         .replace('href="./agents.html"', 'href="' + DEMO + '?p=agents.html"')
         .replace('<a href="./">', '<a href="' + DEMO + '">')
@@ -101,44 +86,10 @@ h1{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
     }).catch(function () { msg.className = 'msg err'; msg.textContent = '화면을 불러오지 못했어요 · 새로고침해 주세요'; });
   }
 
-  if (qs.get('expired')) { del('__pin'); del('__exp'); ended(); return; }
-
-  var saved = get('__pin');
-  if (saved) {
-    msg.textContent = '확인 중…';
-    check(saved).then(function (exp) {
-      if (exp) { set('__exp', exp); boot(); } else { del('__pin'); del('__exp'); ended(); }
-    }).catch(function () { msg.className = 'msg err'; msg.textContent = '인터넷 연결을 확인해 주세요'; });
-    return;
-  }
-
-  var box = Array.prototype.slice.call(document.querySelectorAll('.pin input'));
-  box[0].focus();
-  function val() { return box.map(function (i) { return i.value; }).join(''); }
-  function clear() { box.forEach(function (i) { i.value = ''; }); box[0].focus(); }
-  var busy = false;
-  function submit() {
-    var pin = val(); if (pin.length < 4 || busy) return;
-    busy = true; msg.className = 'msg'; msg.textContent = '확인 중…';
-    check(pin).then(function (exp) {
-      busy = false;
-      if (!exp) { msg.className = 'msg err'; msg.textContent = 'PIN 이 맞지 않거나 기한이 지났어요'; clear(); return; }
-      set('__pin', pin); set('__exp', exp); boot();
-    }).catch(function () { busy = false; msg.className = 'msg err'; msg.textContent = '인터넷 연결을 확인해 주세요'; });
-  }
-  box.forEach(function (inp, i) {
-    inp.addEventListener('input', function () {
-      inp.value = inp.value.replace(/\D/g, '').slice(-1);
-      if (inp.value && i < box.length - 1) box[i + 1].focus();
-      submit();
-    });
-    inp.addEventListener('keydown', function (e) { if (e.key === 'Backspace' && !inp.value && i > 0) { box[i - 1].focus(); box[i - 1].value = ''; } });
-    inp.addEventListener('paste', function (e) {
-      var t = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 4); if (!t) return;
-      e.preventDefault(); box.forEach(function (b, j) { b.value = t[j] || ''; }); submit();
-    });
-  });
-  document.getElementById('pinForm').addEventListener('submit', function (e) { e.preventDefault(); submit(); });
+  if (qs.get('expired')) { del('__exp'); ended(); return; }
+  open().then(function (exp) {
+    if (exp) { set('__exp', exp); boot(); } else { del('__exp'); ended(); }
+  }).catch(function () { msg.className = 'msg err'; msg.textContent = '인터넷 연결을 확인해 주세요 · 새로고침해 주세요'; });
 })();
 </script>
 </body>
