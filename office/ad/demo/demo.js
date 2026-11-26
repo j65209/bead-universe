@@ -66,9 +66,13 @@
     var m = /\/rest\/v1\/rpc\/([a-z0-9_]+)/i.exec(url || '');
     return !!(m && method === 'POST' && READ_RPC[m[1]]);
   }
-  var lastToast = 0;
+  var lastToast = 0, lastAct = 0;
+  ['pointerdown', 'keydown', 'change'].forEach(function (ev) { D.addEventListener(ev, function () { lastAct = Date.now(); }, true); });
   function toast(msg) {
-    var now = Date.now(); if (now - lastToast < 2500) return; lastToast = now;
+    var now = Date.now();
+    var act = lastAct; try { if (!TOP && W.top.__bbDemoAct) act = Math.max(act, W.top.__bbDemoAct()); } catch (e) { }
+    if (!msg && now - act > 4000) return;          // 앱이 뒤에서 혼자 저장하려던 건 조용히 막기만
+    if (now - lastToast < 2500) return; lastToast = now;
     var host; try { host = TOP ? D : W.top.document; } catch (e) { host = D; }
     if (!host.body) return;
     var t = host.getElementById('bbDemoToast');
@@ -86,7 +90,7 @@
     } catch (e) { return h; }
   }
   // 앱 쪽 html 을 받아 다른 창에 쓰는 경우(도구 창) — 그 화면에도 이 파일을 맨 앞에 넣는다
-  var SELF = '<script src="' + DEMO + 'demo.js?v=1"><\/script>';
+  var SELF = '<script src="' + DEMO + 'demo.js?v=2"><\/script>';
   function isAppHtml(u) { return u.indexOf(APP) === 0 && /(\.html?|\/)(\?|#|$)/.test(u); }
 
   var oFetch = W.fetch;
@@ -120,6 +124,7 @@
     if (!allowed(this.__m, String(this.__u))) { toast(); try { this.abort(); } catch (e) { } return; }
     return XS.apply(this, arguments);
   };
+  if (TOP) W.__bbDemoAct = function () { return lastAct; };
   try { navigator.sendBeacon = function () { return true; }; } catch (e) { }
   try { if (navigator.serviceWorker) navigator.serviceWorker.register = function () { return Promise.reject(new Error('demo')); }; } catch (e) { }
   try { if (W.Notification) { W.Notification.requestPermission = function () { return Promise.resolve('denied'); }; } } catch (e) { }

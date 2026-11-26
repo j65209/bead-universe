@@ -91,7 +91,7 @@ h1{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
     }).then(function (html) {
       html = html
         .replace(/<head[^>]*>/i, function (m) {
-          return m + '<script src="' + DEMO + 'demo.js?v=1"><\/script><base href="' + base + '"><meta name="robots" content="noindex,nofollow">' + guard;
+          return m + '<script src="' + DEMO + 'demo.js?v=2"><\/script><base href="' + base + '"><meta name="robots" content="noindex,nofollow">' + guard;
         })
         .replace('href="./agents.html"', 'href="' + DEMO + '?p=agents.html"')
         .replace('<a href="./">', '<a href="' + DEMO + '">')
